@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center_vertical">
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/volumeedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Amount of fuel" />
+
+        <EditText android:id="@+id/priceedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Price per unit" />
+
+    </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/distanceedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="+Trip/Odometer" />
+
+        <CheckBox android:id="@+id/partialfillupckbx"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="Partial fill" />
+
+    </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/dateedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Current Date" />
+
+        <EditText android:id="@+id/timeedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Current Time" />
+
+    </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/notesedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Additional Notes" />
+
+    </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <Button android:id="@+id/savefillupbtn"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                android:text="Save Fillup"/>
+
+        <CheckBox android:id="@+id/savelocationckbx"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="Save Location ?" />
+
+    </LinearLayout>
+
+</LinearLayout>

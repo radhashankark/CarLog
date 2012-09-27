@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center_vertical">
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/oiltypeedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Type of oil" />
+
+        <EditText android:id="@+id/oilchangepriceedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Total Cost" />
+
+    </LinearLayout>
+
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <EditText android:id="@+id/oilchangeodoedittext"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:padding="5dp"
+                  android:hint="Odometer Reading" />
+
+        <CheckBox android:id="@+id/remindnextchangeckbx"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:text="Remind me on next change" />
+
+    </LinearLayout>
+
+</LinearLayout>

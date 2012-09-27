@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_main">
+        <item>Fill Up</item>
+        <item>Oil Change</item>
+        <item>Maintenance</item>
+    </string-array>
+</resources>
