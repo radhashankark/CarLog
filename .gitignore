@@ -1,0 +1,10 @@
+.classpath
+.project
+*.apk
+bin/*
+libs/*
+out/*
+project.properties
+.idea/*
+*.iml
+*.eml
