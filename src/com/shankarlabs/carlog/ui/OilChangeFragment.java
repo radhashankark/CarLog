@@ -24,6 +24,7 @@ public class OilChangeFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View fragmentView = inflater.inflate(R.layout.oilchange, container, false);
         return fragmentView;
     }
@@ -33,11 +34,15 @@ public class OilChangeFragment extends SherlockFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getSherlockActivity().getSupportMenuInflater();
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        // MenuInflater menuInflater = getSherlockActivity().getSupportMenuInflater();
+        menu.clear(); // First clear out all the elements in the menu
+        getSherlockActivity().onCreateOptionsMenu(menu); // Add the Activity's options menu
         menuInflater.inflate(R.menu.oilchange, menu);
 
-        return true; // we handled it !
+        super.onCreateOptionsMenu(menu, menuInflater);
+
     }
 
     @Override

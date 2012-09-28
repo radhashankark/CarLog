@@ -24,6 +24,8 @@ public class FillUpFragment extends SherlockFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
         View fragmentView = inflater.inflate(R.layout.fillup, container, false);
         return fragmentView;
     }
@@ -33,11 +35,15 @@ public class FillUpFragment extends SherlockFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getSherlockActivity().getSupportMenuInflater();
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        // MenuInflater menuInflater = getSherlockActivity().getSupportMenuInflater();
+        menu.clear(); // First clear out all the elements in the menu
+        getSherlockActivity().onCreateOptionsMenu(menu); // Add the Activity's options menu
         menuInflater.inflate(R.menu.fillup, menu);
 
-        return true; // we handled it !
+        super.onCreateOptionsMenu(menu, menuInflater);
+
     }
 
     @Override

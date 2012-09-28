@@ -16,11 +16,11 @@
           android:layout_margin="10dp"
           android:background="#777" />
 
-    <fragment android:id="@+id/pane2_fragment"
-              android:tag="pane2_fragment"
-              android:layout_height="match_parent"
-              android:layout_width="match_parent"
-              android:layout_weight="2" />
+    <FrameLayout  android:id="@+id/pane2_fragment"
+                  android:tag="pane2_fragment"
+                  android:layout_height="match_parent"
+                  android:layout_width="match_parent"
+                  android:layout_weight="2" />
 
 </LinearLayout>
 

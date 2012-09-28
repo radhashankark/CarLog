@@ -83,6 +83,14 @@ public class CarLogActivity extends SherlockFragmentActivity {
             };
 
             actionBar.setListNavigationCallbacks(mSpinnerAdapter, spinnerNavigationListener);
+        } else { // We have two panes. Populate the second pane
+            Log.d(LOGTAG, "CarLogActivity : onCreate : We have just two panes. Showing FillupFragment.");
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            SherlockFragment fillUpFragment = new FillUpFragment();
+            ft.replace(R.id.pane2_fragment, fillUpFragment);
+            // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+            ft.commit();
         }
 
         Log.d(LOGTAG, "CarLogActivity : onCreate : Main screen ready");
