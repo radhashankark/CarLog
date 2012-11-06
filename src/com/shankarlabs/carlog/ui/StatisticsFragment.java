@@ -1,48 +1,61 @@
 package com.shankarlabs.carlog.ui;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.shankarlabs.carlog.R;
 
-public class OilChangeFragment extends SherlockFragment {
+public class StatisticsFragment extends SherlockFragment {
 
-    private static final String LOGTAG = "CarLog";
+    private static Context mContext;
+    private final static String LOGTAG = "CarLog";
+
+    public StatisticsFragment(Context context) {
+        super();
+
+        mContext = context;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View fragmentView = inflater.inflate(R.layout.oilchange, container, false);
+        View fragmentView = inflater.inflate(R.layout.types, container, false);
         return fragmentView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // MenuInflater menuInflater = getSherlockActivity().getSupportMenuInflater();
         menu.clear(); // First clear out all the elements in the menu
-        getSherlockActivity().onCreateOptionsMenu(menu); // Add the Activity's options menu
-        menuInflater.inflate(R.menu.oilchange, menu);
+        // getSherlockActivity().onCreateOptionsMenu(menu); // Add the Activity's options menu
+        // menuInflater.inflate(R.menu.types, menu);
 
         super.onCreateOptionsMenu(menu, menuInflater);
-
     }
 
     @Override
@@ -55,8 +68,13 @@ public class OilChangeFragment extends SherlockFragment {
         // mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
 
         switch (itemId) {
-            case R.id.save:
-                Log.d(LOGTAG, "OilChangeFragment : onOptionsItemSelected : Saving all data");
+            case android.R.id.home :
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                SherlockFragment fillUpFragment = new FillUpFragment(mContext);
+                ft.replace(R.id.pane2_fragment, fillUpFragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                ft.commit();
                 break;
             default:
                 break;

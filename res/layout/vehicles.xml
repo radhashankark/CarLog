@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center" >
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:text="Vehicle Code"
+            android:textSize="16dp"
+            android:layout_gravity="left|center_vertical"/>
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:id="@+id/vehiclecode"
+            android:hint="Integer Value, Ex. 2"
+            android:inputType="number"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:text="Vehicle Name"
+            android:textSize="16dp"
+            android:layout_gravity="left|center_vertical"/>
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:id="@+id/vehiclename"
+            android:hint="Vehicle Name"
+            android:inputType="text"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:text="Units Used"
+            android:textSize="16dp"
+            android:layout_gravity="left|center_vertical"/>
+
+    <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:id="@+id/units"
+            android:entries="@array/units"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:text="Description"
+            android:textSize="16dp"
+            android:layout_gravity="left|center_vertical"/>
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:margin="3dp"
+            android:lines="4"
+            android:id="@+id/description"
+            android:hint="Description of the vehicle"/>
+
+</LinearLayout>
