@@ -4,52 +4,121 @@
              android:layout_width="fill_parent"
              android:layout_height="fill_parent"
              android:orientation="vertical" >
+    <!--
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"  >
 
-    <LinearLayout android:layout_height="wrap_content"
-                  android:layout_width="match_parent"
-                  android:orientation="horizontal"
-                  android:layout_weight="1" >
-
-        <ImageButton
-                android:layout_width="wrap_content"
+        <TextView
+                android:id="@+id/fillups"
+                android:text="Fillup"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/ic_launcher"
-                android:contentDescription="Fill Up"
-                android:id="@+id/fillups" />
-
-        <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/ic_launcher"
-                android:contentDescription="Maintenance"
-                android:id="@+id/maintenance" />
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
+
+        <TextView
+                android:id="@+id/maintenance"
+                android:text="Maintenance"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
+
+    </LinearLayout>
+    -->
+    <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"  >
+
+        <Button
+                android:id="@+id/fillups"
+                android:text="Fillup"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
+                android:background="@drawable/button_background"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
+
+        <Button
+                android:id="@+id/maintenance"
+                android:text="Maintenance"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
+                android:background="@drawable/button_background"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
 
     </LinearLayout>
 
     <LinearLayout android:layout_height="wrap_content"
                   android:layout_width="match_parent"
-                  android:orientation="horizontal"
-                  android:layout_weight="1" >
+                  android:orientation="horizontal" >
 
-        <ImageButton
-                android:layout_width="wrap_content"
+        <Button
+                android:id="@+id/vehicletypes"
+                android:text="Vehicle Types"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
+                android:background="@drawable/button_background"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ic_launcher"
-                android:contentDescription="Fill Up"
-                android:id="@+id/fillups" />
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
 
-        <ImageButton
-                android:layout_width="wrap_content"
+        <Button
+                android:id="@+id/maintenancetypes"
+                android:text="Maintenance Types"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
+                android:background="@drawable/button_background"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/ic_launcher"
-                android:contentDescription="Maintenance"
-                android:id="@+id/maintenance" />
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
 
     </LinearLayout>
 
+    <LinearLayout android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:orientation="horizontal" >
+
+
+        <Button
+                android:id="@+id/statistics"
+                android:text="Statistics"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
+                android:background="@drawable/button_background"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
+
+    </LinearLayout>
 
 </LinearLayout>

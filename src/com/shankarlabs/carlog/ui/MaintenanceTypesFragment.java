@@ -37,7 +37,7 @@ public class MaintenanceTypesFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View fragmentView = inflater.inflate(R.layout.vehicletypes, container, false);
+        View fragmentView = inflater.inflate(R.layout.maintenancetypes, container, false);
         return fragmentView;
     }
 
@@ -53,7 +53,7 @@ public class MaintenanceTypesFragment extends SherlockFragment {
         // MenuInflater menuInflater = getSherlockActivity().getSupportMenuInflater();
         menu.clear(); // First clear out all the elements in the menu
         // getSherlockActivity().onCreateOptionsMenu(menu); // Add the Activity's options menu
-        // menuInflater.inflate(R.menu.vehicletypes, menu);
+        // menuInflater.inflate(R.menu.vehicles, menu);
 
         super.onCreateOptionsMenu(menu, menuInflater);
     }

@@ -1,22 +1,34 @@
 package com.shankarlabs.carlog.ui;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.shankarlabs.carlog.R;
+import com.shankarlabs.carlog.core.VehicleDBHelper;
 
 public class VehiclesFragment extends SherlockFragment {
 
     private static Context mContext;
     private final static String LOGTAG = "CarLog";
+    private static VehicleDBHelper vehicleDBHelper;
+    private Spinner vehicleNames, unitsUsed;
+    private EditText vehicleCode, vehicleName, vehicleDescription;
+
 
     public VehiclesFragment(Context context) {
         super();
@@ -45,7 +57,43 @@ public class VehiclesFragment extends SherlockFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        vehicleNames = (Spinner) getSherlockActivity().findViewById(R.id.vehiclenames);
+        vehicleCode = (EditText) getSherlockActivity().findViewById(R.id.vehiclecode);
+        vehicleName = (EditText) getSherlockActivity().findViewById(R.id.vehiclename);
+        unitsUsed = (Spinner) getSherlockActivity().findViewById(R.id.units);
+        vehicleDescription = (EditText) getSherlockActivity().findViewById(R.id.description);
 
+        vehicleNames.setOnItemSelectedListener(vehicleNamesOnItemSelectedListener);
+
+        // Get the DB instances
+        vehicleDBHelper = new VehicleDBHelper(mContext);
+
+        // Populate the Vehicle types
+        Cursor cursor = vehicleDBHelper.getAllVehicleNames();
+        if(cursor == null) {
+            Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : All Vehicle Names Cursor is null");
+            Toast.makeText(mContext, "No vehicle names found", Toast.LENGTH_SHORT).show();
+        } else if(cursor.getCount() == 0) {
+            Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : Zero vehicles found");
+            Toast.makeText(mContext, "No vehicles saved", Toast.LENGTH_SHORT).show();
+        } else {
+            cursor.moveToFirst(); // Move to first to start reading
+            // cursor.moveToNext(); // Move to the next one to skip one default row
+            Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : " + cursor.getCount() + " vehicles found");
+            Toast.makeText(mContext, cursor.getCount() + " vehicles found", Toast.LENGTH_SHORT).show();
+        }
+
+        String[] projection = {"Name"};
+        int[] to = {android.R.layout.simple_spinner_dropdown_item};
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
+                android.R.layout.simple_spinner_item,
+                cursor,
+                projection,
+                to,
+                0);
+        simpleCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        vehicleNames.setAdapter(simpleCursorAdapter);
     }
 
     @Override
@@ -81,4 +129,17 @@ public class VehiclesFragment extends SherlockFragment {
         }
         return super.onOptionsItemSelected(menuItem);
     }
+
+    AdapterView.OnItemSelectedListener vehicleNamesOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+            //To change body of implemented methods use File | Settings | File Templates.
+        }
+    };
 }

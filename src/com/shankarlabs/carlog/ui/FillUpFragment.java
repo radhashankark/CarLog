@@ -1,10 +1,12 @@
 package com.shankarlabs.carlog.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -14,6 +16,13 @@ import com.shankarlabs.carlog.R;
 public class FillUpFragment extends SherlockFragment {
 
     private static final String LOGTAG = "CarLog";
+    private static Context mContext;
+
+    public FillUpFragment (Context context) {
+        super();
+
+        mContext = context;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +67,11 @@ public class FillUpFragment extends SherlockFragment {
         switch (itemId) {
             case R.id.save:
                 Log.d(LOGTAG, "FillUpFragment : onOptionsItemSelected : Saving all data");
+                Toast.makeText(mContext, "Saving", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.camera:
                 Log.d(LOGTAG, "FillUpFragment : onOptionsItemSelected : Starting to take a photo");
+                Toast.makeText(mContext, "Starting to take a photo", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

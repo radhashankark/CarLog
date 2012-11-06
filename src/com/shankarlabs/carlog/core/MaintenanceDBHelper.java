@@ -8,24 +8,20 @@ import android.util.Log;
 public class MaintenanceDBHelper extends SQLiteOpenHelper {
 
     private Context mContext;
-    private static final String DATABASE_NAME = "Fillup";
+    private static final String DATABASE_NAME = "Maintenance";
     private static int DATABASE_VERSION = 1;
     private SQLiteDatabase database = null;
 
     private static final String LOGTAG = "CarLog";
     private final String TABLE_CREATE = "CREATE TABLE " + DATABASE_NAME +
             " (_id INTEGER primary key autoincrement," +
-            " QUANTITY REAL," +
-            " DISTANCE TEXT, " +
-            " PRICE REAL, " +
-            " DATE TEXT, " +
-            " ISPARTIAL INTEGER, " +
+            " TYPE TEXT," +
             " VEHICLE INTEGER, " +
-            " LATITUDE TEXT, " +
-            " LONGITUDE TEXT, " +
-            " COMMENTS TEXT, " +
-            " UNITS INTEGER, " +
-            " RESETCALCULATIONS INTEGER);";
+            " ODOMETER INTEGER, " +
+            " DATE TEXT, " +
+            " COST REAL, " +
+            " PERFORMEDAT TEXT, " +
+            " COMMENTS TEXT);";
 
     public MaintenanceDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,7 +33,7 @@ public class MaintenanceDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Add stuff to do when creating the DB. Called when the DB is created for the first time
         db.execSQL(TABLE_CREATE);
-        Log.d(LOGTAG, "FillupDBHelper : onCreate : Created Database");
+        Log.d(LOGTAG, "MaintenanceDBHelper : onCreate : Created Database");
     }
 
     @Override

@@ -2,7 +2,14 @@
 <resources>
     <string-array name="spinner_main">
         <item>Fill Up</item>
-        <item>Oil Change</item>
         <item>Maintenance</item>
+        <item>Vehicle Types</item>
+        <item>Maintenance Types</item>
+        <item>Statistics</item>
+    </string-array>
+
+    <string-array name="units">
+        <item>Miles, Gallons (Imperial)</item>
+        <item>Km, Lites (Metric)</item>
     </string-array>
 </resources>
