@@ -21,8 +21,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.shankarlabs.carlog.R;
-import com.shankarlabs.carlog.core.MaintTypeDBHelper;
-import com.shankarlabs.carlog.core.VehicleDBHelper;
 
 public class CarLogActivity extends SherlockFragmentActivity {
 
@@ -43,7 +41,6 @@ public class CarLogActivity extends SherlockFragmentActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        setTitle("");
 
         // Figure out if we have dual panes, and then initialize the second pane
         View pane2 = findViewById(R.id.pane2_fragment);
@@ -53,6 +50,8 @@ public class CarLogActivity extends SherlockFragmentActivity {
 
         if(!mDualPane) { // we have just one pane. Setup spinner in actionbar
             Log.d(LOGTAG, "CarLogActivity : onCreate : We have just one pane. Setting up Spinner.");
+            setTitle("");
+
             // Get the Action Bar ready to hold the Spinner
             ActionBar actionBar = getSupportActionBar();
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);

@@ -18,12 +18,13 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
     private final String TABLE_CREATE = "CREATE TABLE " + DATABASE_NAME +
             " (_id INTEGER primary key autoincrement," +
             " CODE INTEGER," +
-            " NAME TEXT, " +
-            " UNITSUSED INTEGER, " +
+            " NAME TEXT," +
+            " ISDEFAULT INTEGER," +
+            " UNITSUSED INTEGER," +
             " DESCRIPTION TEXT);";
 
-    private final String INITIAL_DATA_NEW = "INSERT INTO " + DATABASE_NAME + " VALUES (, 0, 'New', 0, 'New Vehicle')";
-    private final String INITIAL_DATA_DEFAULT = "INSERT INTO " + DATABASE_NAME + " VALUES (, 1, 'Default', 0, 'New Vehicle')";
+    private final String INITIAL_DATA_NEW = "INSERT INTO " + DATABASE_NAME + " VALUES (null, 0, 'New', 0, 0, 'New Vehicle')";
+    private final String INITIAL_DATA_DEFAULT = "INSERT INTO " + DATABASE_NAME + " VALUES (null, 1, 'Default', 1, 0, 'Default Vehicle')";
 
     private final String SELECT_ALL_QUERY = " SELECT * FROM " + DATABASE_NAME;
     private final String SELECT_ALL_NAMES = " SELECT NAME FROM " + DATABASE_NAME;
@@ -48,23 +49,25 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         // TODO Update this method when updating the DB
     }
 
-    public Cursor getAllVehicleNames() {
+    public Cursor getAllVehicles() {
         if(database == null)
             database = getWritableDatabase();
 
-        Cursor cursor = database.rawQuery(SELECT_ALL_NAMES, null);
+        Cursor cursor = database.rawQuery(SELECT_ALL_QUERY, null);
 
         return cursor;
     }
 
-    public boolean saveVehicle(int code, String name, int units, String description) {
+    public boolean saveVehicle(int code, String name, int isDefault, int units, String description) {
         if(database == null)
             database = getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
+        values.put("_id", (Integer) null);
         values.put("CODE", code);
         values.put("NAME", name);
+        values.put("ISDEFAULT", isDefault);
         values.put("UNITSUSED", units);
         values.put("DESCRIPTION", description);
 
@@ -74,7 +77,7 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
             return false;
     }
 
-    public boolean updateVehicle(int code, String name, int units, String description) {
+    public boolean updateVehicle(int code, String name, int isDefault, int units, String description) {
         if(database == null)
             database = getWritableDatabase();
 
@@ -82,6 +85,7 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
 
         values.put("CODE", code);
         values.put("NAME", name);
+        values.put("ISDEFAULT", isDefault);
         values.put("UNITSUSED", units);
         values.put("DESCRIPTION", description);
 
@@ -92,5 +96,46 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
+    }
+
+    public int getDefaultVehicleId() {
+        if(database == null)
+            database = getWritableDatabase();
+
+        String query = "SELECT _id from " + DATABASE_NAME + " WHERE ISDEFAULT = '1'";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if(cursor == null) {
+            Log.w(LOGTAG, "VehicleDBHelper : getDefaultVehicleId : Cursor is null");
+            return -1;
+        } else if(cursor.getCount() == 0) {
+            Log.w(LOGTAG, "VehicleDBHelper : getDefaultVehicleId : Zero results");
+            return 0;
+        } else {
+            cursor.moveToFirst();
+            return cursor.getInt(0); // Index 0 is the _id that we're looking for
+        }
+    }
+
+    public String[] getVehicleData(int id) {
+        if(database == null)
+            database = getWritableDatabase();
+
+        String query = "SELECT * from " + DATABASE_NAME + " WHERE _id = '" + id + "'";
+        Cursor cursor = database.rawQuery(query, null);
+
+        if(cursor == null) {
+            Log.w(LOGTAG, "VehicleDBHelper : getDefaultVehicleId : Cursor is null");
+            return null;
+        } else if(cursor.getCount() == 0) {
+            Log.w(LOGTAG, "VehicleDBHelper : getDefaultVehicleId : Zero results");
+            return null;
+        } else {
+            cursor.moveToFirst();
+            String[] vehicleData = new String[6];
+
+            vehicleData[0] = "" + cursor.getInt(0);
+            return vehicleData;
+        }
     }
 }

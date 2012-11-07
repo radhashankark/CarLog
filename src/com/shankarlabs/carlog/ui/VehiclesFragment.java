@@ -24,6 +24,7 @@ import com.shankarlabs.carlog.core.VehicleDBHelper;
 public class VehiclesFragment extends SherlockFragment {
 
     private static Context mContext;
+    private static boolean mDualPane;
     private final static String LOGTAG = "CarLog";
     private static VehicleDBHelper vehicleDBHelper;
     private Spinner vehicleNames, unitsUsed;
@@ -34,6 +35,7 @@ public class VehiclesFragment extends SherlockFragment {
         super();
 
         mContext = context;
+
     }
 
     @Override
@@ -57,6 +59,11 @@ public class VehiclesFragment extends SherlockFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        // Get the status of the dual panes
+        View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
+        mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
+
+
         vehicleNames = (Spinner) getSherlockActivity().findViewById(R.id.vehiclenames);
         vehicleCode = (EditText) getSherlockActivity().findViewById(R.id.vehiclecode);
         vehicleName = (EditText) getSherlockActivity().findViewById(R.id.vehiclename);
@@ -69,7 +76,7 @@ public class VehiclesFragment extends SherlockFragment {
         vehicleDBHelper = new VehicleDBHelper(mContext);
 
         // Populate the Vehicle types
-        Cursor cursor = vehicleDBHelper.getAllVehicleNames();
+        Cursor cursor = vehicleDBHelper.getAllVehicles();
         if(cursor == null) {
             Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : All Vehicle Names Cursor is null");
             Toast.makeText(mContext, "No vehicle names found", Toast.LENGTH_SHORT).show();
@@ -83,15 +90,17 @@ public class VehiclesFragment extends SherlockFragment {
             Toast.makeText(mContext, cursor.getCount() + " vehicles found", Toast.LENGTH_SHORT).show();
         }
 
-        String[] projection = {"Name"};
-        int[] to = {android.R.layout.simple_spinner_dropdown_item};
+        String[] projection = {"NAME"};
+        int[] mapTo = {android.R.id.text1};
+
         SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
-                android.R.layout.simple_spinner_item,
+                R.layout.cl_spinner_item,
                 cursor,
                 projection,
-                to,
+                mapTo,
                 0);
-        simpleCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // simpleCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         vehicleNames.setAdapter(simpleCursorAdapter);
     }
@@ -119,7 +128,10 @@ public class VehiclesFragment extends SherlockFragment {
             case android.R.id.home :
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 SherlockFragment fillUpFragment = new FillUpFragment(mContext);
-                ft.replace(R.id.pane2_fragment, fillUpFragment);
+                if(mDualPane)
+                    ft.replace(R.id.pane2_fragment, fillUpFragment);
+                else
+                    ft.replace(R.id.pane1_fragment, fillUpFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();

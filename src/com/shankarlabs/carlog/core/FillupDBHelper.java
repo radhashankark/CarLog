@@ -1,5 +1,6 @@
 package com.shankarlabs.carlog.core;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -25,7 +26,8 @@ public class FillupDBHelper extends SQLiteOpenHelper {
             " LONGITUDE TEXT, " +
             " COMMENTS TEXT, " +
             " UNITS INTEGER, " +
-            " RESETCALCULATIONS INTEGER);";
+            " RESETCALCULATIONS INTEGER, " +
+            " IMAGELOCATION TEXT);";
 
     public FillupDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,4 +46,32 @@ public class FillupDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Update this method when updating the DB
     }
+
+    public boolean saveFillup(float quantity, String distance, float price, String date, boolean isPartial,
+                              int vehicleCode, String latitude, String longitude, String comments, int unitsUsed,
+                              int resetCalculations, String imageLocation) {
+        if(database == null)
+            database = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("_id", (Integer) null);
+        values.put("QUANTITY", quantity);
+        values.put("DISTANCE", distance);
+        values.put("PRICE", price);
+        values.put("DATE", date);
+        values.put("ISPARTIAL", isPartial ? 1 : 0);
+        values.put("VEHICLE", vehicleCode);
+        values.put("LATITUDE", latitude);
+        values.put("LONGITUDE", longitude);
+        values.put("COMMENTS", comments);
+        values.put("UNITS", unitsUsed);
+        values.put("RESETCALCULATIONS", resetCalculations);
+        values.put("IMAGELOCATION", imageLocation);
+
+        if(database.insert(DATABASE_NAME, null, values) != -1)
+            return true;
+        else
+            return false;
+    }
+
 }

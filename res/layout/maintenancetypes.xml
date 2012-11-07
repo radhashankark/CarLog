@@ -9,7 +9,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:text="Maintenance Type"
             android:textSize="16dp"
             android:layout_gravity="left|center_vertical"/>
@@ -17,7 +17,7 @@
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:id="@+id/mainttype"
             android:hint="Maintenance Type, Ex. Oil Change"
             android:inputType="text"/>
@@ -25,7 +25,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:text="Performed At"
             android:textSize="16dp"
             android:layout_gravity="left|center_vertical"/>
@@ -33,7 +33,7 @@
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:id="@+id/performedat"
             android:hint="Performed at, Ex. Jiffy Lube"
             android:inputType="text"/>
@@ -41,7 +41,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:text="Normal Cost"
             android:textSize="16dp"
             android:layout_gravity="left|center_vertical"/>
@@ -49,7 +49,7 @@
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:id="@+id/cost"
             android:hint="Normal Cost of Maintenance"
             android:inputType="numberDecimal"/>
@@ -57,7 +57,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:text="Comments"
             android:textSize="16dp"
             android:layout_gravity="left|center_vertical"/>
@@ -65,7 +65,7 @@
     <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:margin="3dp"
+            android:layout_margin="3dp"
             android:lines="4"
             android:id="@+id/comments"
             android:hint="Comments"/>

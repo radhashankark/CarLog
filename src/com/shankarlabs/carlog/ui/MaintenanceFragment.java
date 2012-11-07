@@ -17,6 +17,7 @@ import com.shankarlabs.carlog.R;
 
 public class MaintenanceFragment extends SherlockFragment {
 
+    private static boolean mDualPane;
     private static final String LOGTAG = "CarLog";
     private static Context mContext;
 
@@ -46,6 +47,10 @@ public class MaintenanceFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Get the status of the dual panes
+        View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
+        mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
     }
 
     @Override
@@ -72,7 +77,10 @@ public class MaintenanceFragment extends SherlockFragment {
             case android.R.id.home :
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 SherlockFragment fillUpFragment = new FillUpFragment(mContext);
-                ft.replace(R.id.pane2_fragment, fillUpFragment);
+                if(mDualPane)
+                    ft.replace(R.id.pane2_fragment, fillUpFragment);
+                else
+                    ft.replace(R.id.pane1_fragment, fillUpFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();

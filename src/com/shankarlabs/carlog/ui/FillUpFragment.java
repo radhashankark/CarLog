@@ -5,13 +5,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.*;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -46,6 +46,9 @@ public class FillUpFragment extends SherlockFragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        ActionBar actionBar = getSherlockActivity().getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
@@ -76,7 +79,7 @@ public class FillUpFragment extends SherlockFragment {
         partialFillup = (CheckBox) getSherlockActivity().findViewById(R.id.partialfillupckbx);
         saveFillupButton = (Button) getSherlockActivity().findViewById(R.id.savefillupbtn);
 
-        Cursor cursor = vehicleDBHelper.getAllVehicleNames();
+        Cursor cursor = vehicleDBHelper.getAllVehicles();
         if(cursor == null) {
             Log.w(LOGTAG, "FillUpFragment : onActivityCreated : All Vehicle Names Cursor is null");
             Toast.makeText(mContext, "No vehicle names found", Toast.LENGTH_SHORT).show();
@@ -90,11 +93,19 @@ public class FillUpFragment extends SherlockFragment {
             Toast.makeText(mContext, (cursor.getCount() - 1) + " vehicles found", Toast.LENGTH_SHORT).show();
         }
 
-        String[] projection = {"name"};
-        int[] mapTo = {android.R.layout.simple_spinner_dropdown_item};
-        SpinnerAdapter spinnerAdapter = new SimpleCursorAdapter(mContext, android.R.layout.simple_spinner_dropdown_item, cursor, projection, mapTo, 0);
+        String[] projection = new String[] {"NAME"};
+        int[] mapTo = new int[] {android.R.id.text1};
 
+        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
+                R.layout.cl_spinner_item,
+                cursor,
+                projection,
+                mapTo,
+                0);
 
+        fillupFor.setAdapter(simpleCursorAdapter);
+
+        fillupFor.setSelection(1);
     }
 
 
@@ -123,6 +134,7 @@ public class FillUpFragment extends SherlockFragment {
             case R.id.save:
                 Log.d(LOGTAG, "FillUpFragment : onOptionsItemSelected : Saving all data");
                 Toast.makeText(mContext, "Saving", Toast.LENGTH_SHORT).show();
+                saveFillup();
                 break;
             case R.id.camera:
                 Log.d(LOGTAG, "FillUpFragment : onOptionsItemSelected : Starting to take a photo");

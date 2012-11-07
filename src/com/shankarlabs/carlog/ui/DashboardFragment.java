@@ -66,8 +66,8 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new MaintenanceFragment(mContext);
-                ft.replace(R.id.pane2_fragment, fillUpFragment);
+                SherlockFragment maintenanceFragment = new MaintenanceFragment(mContext);
+                ft.replace(R.id.pane2_fragment, maintenanceFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();
@@ -80,8 +80,8 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new VehiclesFragment(mContext);
-                ft.replace(R.id.pane2_fragment, fillUpFragment);
+                SherlockFragment vehiclesFragment = new VehiclesFragment(mContext);
+                ft.replace(R.id.pane2_fragment, vehiclesFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();
@@ -94,8 +94,8 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new MaintenanceTypesFragment(mContext);
-                ft.replace(R.id.pane2_fragment, fillUpFragment);
+                SherlockFragment maintenanceTypesFragment = new MaintenanceTypesFragment(mContext);
+                ft.replace(R.id.pane2_fragment, maintenanceTypesFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();
@@ -108,8 +108,8 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new StatisticsFragment(mContext);
-                ft.replace(R.id.pane2_fragment, fillUpFragment);
+                SherlockFragment statisticsFragment = new StatisticsFragment(mContext);
+                ft.replace(R.id.pane2_fragment, statisticsFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();

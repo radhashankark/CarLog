@@ -10,6 +10,6 @@
 
     <string-array name="units">
         <item>Miles, Gallons (Imperial)</item>
-        <item>Km, Lites (Metric)</item>
+        <item>Kms, Liters (Metric)</item>
     </string-array>
 </resources>
