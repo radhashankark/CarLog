@@ -6,6 +6,11 @@
               android:layout_height="fill_parent"
               android:gravity="center_vertical">
 
+    <Spinner
+        android:id="@+id/fillupfor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content">
@@ -69,32 +74,26 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content">
 
-        <EditText android:id="@+id/notesedittext"
+        <EditText android:id="@+id/commentsedittext"
                   android:layout_width="match_parent"
-                  android:layout_height="100dp"
+                  android:layout_height="wrap_content"
+                  android:lines="4"
                   android:layout_weight="1"
                   android:padding="5dp"
                   android:hint="Additional Notes" />
 
     </LinearLayout>
 
-    <LinearLayout android:orientation="horizontal"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
+    <CheckBox android:id="@+id/savelocationckbx"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Save Location ?" />
 
-        <Button android:id="@+id/savefillupbtn"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:padding="5dp"
-                android:text="Save Fillup"/>
-
-        <CheckBox android:id="@+id/savelocationckbx"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="1"
-                  android:text="Save Location ?" />
-
-    </LinearLayout>
+    <Button android:id="@+id/savefillupbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:text="Save Fillup" />
 
 </LinearLayout>

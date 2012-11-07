@@ -85,7 +85,7 @@ public class StatisticsFragment extends SherlockFragment {
             cursor.moveToFirst(); // Move to first to start reading
             // cursor.moveToNext(); // Move to the next one to skip one default row
             Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : " + cursor.getCount() + " vehicles found");
-            Toast.makeText(mContext, cursor.getCount() + " vehicles found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, (cursor.getCount() - 1) + " vehicles found", Toast.LENGTH_SHORT).show();
         }
 
         String[] projection = {"Name"};

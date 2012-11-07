@@ -22,8 +22,8 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
             " UNITSUSED INTEGER, " +
             " DESCRIPTION TEXT);";
 
-    private final String INITIAL_DATA_NEW = "INSERT INTO " + DATABASE_NAME + " VALUES ('', '0', 'New', '0', 'New Vehicle')";
-    private final String INITIAL_DATA_DEFAULT = "INSERT INTO " + DATABASE_NAME + " VALUES ('', '1', 'Default', '0', 'New Vehicle')";
+    private final String INITIAL_DATA_NEW = "INSERT INTO " + DATABASE_NAME + " VALUES (, 0, 'New', 0, 'New Vehicle')";
+    private final String INITIAL_DATA_DEFAULT = "INSERT INTO " + DATABASE_NAME + " VALUES (, 1, 'Default', 0, 'New Vehicle')";
 
     private final String SELECT_ALL_QUERY = " SELECT * FROM " + DATABASE_NAME;
     private final String SELECT_ALL_NAMES = " SELECT NAME FROM " + DATABASE_NAME;

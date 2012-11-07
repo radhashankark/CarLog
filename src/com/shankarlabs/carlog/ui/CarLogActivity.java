@@ -21,6 +21,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.shankarlabs.carlog.R;
+import com.shankarlabs.carlog.core.MaintTypeDBHelper;
+import com.shankarlabs.carlog.core.VehicleDBHelper;
 
 public class CarLogActivity extends SherlockFragmentActivity {
 
@@ -120,6 +122,21 @@ public class CarLogActivity extends SherlockFragmentActivity {
             // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
             ft.commit();
         }
+
+        // Initialize the DB Objects so the DB gets populated
+        // VehicleDBHelper vehicleDBHelper = new VehicleDBHelper(mContext);
+        // MaintTypeDBHelper maintTypeDBHelper = new MaintTypeDBHelper(mContext);
+
+        // vehicleDBHelper = null;
+        // maintTypeDBHelper = null;
+
+        // Get the location of the device, but in a thread
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Get the locaction of the device and store it in Prefs
+            }
+        }, "locationThread").run();
 
         Log.d(LOGTAG, "CarLogActivity : onCreate : Main screen ready");
     }

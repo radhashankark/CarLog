@@ -1,27 +1,44 @@
 package com.shankarlabs.carlog.ui;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.widget.*;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.*;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.shankarlabs.carlog.R;
+import com.shankarlabs.carlog.core.FillupDBHelper;
+import com.shankarlabs.carlog.core.VehicleDBHelper;
 
 public class FillUpFragment extends SherlockFragment {
 
     private static final String LOGTAG = "CarLog";
     private static Context mContext;
+    private boolean mDualPane;
+    private Spinner fillupFor;
+    private EditText volumeEditText, priceEditText, distanceEditText, commentsEditText;
+    private CheckBox saveLocation, partialFillup;
+    private Button saveFillupButton;
+    private VehicleDBHelper vehicleDBHelper;
+    private FillupDBHelper fillupDBHelper;
+    private SharedPreferences sharedPreferences;
 
     public FillUpFragment (Context context) {
         super();
 
         mContext = context;
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @Override
@@ -42,7 +59,45 @@ public class FillUpFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Get Pane2 status
+        View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
+        mDualPane = pane2 != null && pane2.getVisibility() == View.VISIBLE;
+
+        vehicleDBHelper = new VehicleDBHelper(mContext);
+        fillupDBHelper = new FillupDBHelper(mContext);
+
+        fillupFor = (Spinner) getSherlockActivity().findViewById(R.id.fillupfor);
+        volumeEditText = (EditText) getSherlockActivity().findViewById(R.id.volumeedittext);
+        priceEditText = (EditText) getSherlockActivity().findViewById(R.id.priceedittext);
+        distanceEditText = (EditText) getSherlockActivity().findViewById(R.id.distanceedittext);
+        commentsEditText = (EditText) getSherlockActivity().findViewById(R.id.commentsedittext);
+        saveLocation = (CheckBox) getSherlockActivity().findViewById(R.id.savelocationckbx);
+        partialFillup = (CheckBox) getSherlockActivity().findViewById(R.id.partialfillupckbx);
+        saveFillupButton = (Button) getSherlockActivity().findViewById(R.id.savefillupbtn);
+
+        Cursor cursor = vehicleDBHelper.getAllVehicleNames();
+        if(cursor == null) {
+            Log.w(LOGTAG, "FillUpFragment : onActivityCreated : All Vehicle Names Cursor is null");
+            Toast.makeText(mContext, "No vehicle names found", Toast.LENGTH_SHORT).show();
+        } else if(cursor.getCount() == 0) {
+            Log.w(LOGTAG, "FillUpFragment : onActivityCreated : Zero vehicles found");
+            Toast.makeText(mContext, "No vehicles saved", Toast.LENGTH_SHORT).show();
+        } else {
+            cursor.moveToFirst(); // Move to first to start reading
+            // cursor.moveToNext(); // Move to the next one to skip one default row
+            Log.w(LOGTAG, "FillUpFragment : onActivityCreated : " + cursor.getCount() + " vehicles found");
+            Toast.makeText(mContext, (cursor.getCount() - 1) + " vehicles found", Toast.LENGTH_SHORT).show();
+        }
+
+        String[] projection = {"name"};
+        int[] mapTo = {android.R.layout.simple_spinner_dropdown_item};
+        SpinnerAdapter spinnerAdapter = new SimpleCursorAdapter(mContext, android.R.layout.simple_spinner_dropdown_item, cursor, projection, mapTo, 0);
+
+
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
@@ -77,5 +132,22 @@ public class FillUpFragment extends SherlockFragment {
                 break;
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void saveFillup() {
+        fillupDBHelper.saveFillup(
+                Float.parseFloat(volumeEditText.getText().toString()),
+                distanceEditText.getText().toString(),
+                Float.parseFloat(priceEditText.getText().toString()),
+                "date",
+                partialFillup.isChecked(),
+                Integer.parseInt(fillupFor.getSelectedItem().toString()),
+                sharedPreferences.getString("latitude", "0.0000"),
+                sharedPreferences.getString("longitude", "0.0000"),
+                commentsEditText.getText().toString(),
+                Integer.parseInt("Units for car"),
+                0,
+                null);
+
     }
 }
