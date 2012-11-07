@@ -6,10 +6,20 @@
               android:layout_height="fill_parent"
               android:gravity="center_vertical">
 
-    <Spinner
-        android:id="@+id/fillupfor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Filling up Vehicle " />
+
+        <Spinner
+            android:id="@+id/fillupfor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
@@ -50,6 +60,11 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Fill up Date and Time" />
+
     <LinearLayout android:orientation="horizontal"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content">
@@ -57,15 +72,21 @@
         <EditText android:id="@+id/dateedittext"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:gravity="center"
                   android:layout_weight="1"
                   android:padding="5dp"
+                  android:enabled="false"
+                  android:clickable="true"
                   android:hint="Current Date" />
 
         <EditText android:id="@+id/timeedittext"
                   android:layout_width="match_parent"
                   android:layout_height="wrap_content"
+                  android:gravity="center"
                   android:layout_weight="1"
                   android:padding="5dp"
+                  android:enabled="false"
+                  android:clickable="true"
                   android:hint="Current Time" />
 
     </LinearLayout>

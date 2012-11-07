@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +21,15 @@ import com.shankarlabs.carlog.R;
 import com.shankarlabs.carlog.core.FillupDBHelper;
 import com.shankarlabs.carlog.core.VehicleDBHelper;
 
+import java.util.Date;
+
 public class FillUpFragment extends SherlockFragment {
 
     private static final String LOGTAG = "CarLog";
     private static Context mContext;
     private boolean mDualPane;
     private Spinner fillupFor;
-    private EditText volumeEditText, priceEditText, distanceEditText, commentsEditText;
+    private EditText volumeEditText, priceEditText, distanceEditText, commentsEditText, dateEditText, timeEditText;
     private CheckBox saveLocation, partialFillup;
     private Button saveFillupButton;
     private VehicleDBHelper vehicleDBHelper;
@@ -67,6 +70,10 @@ public class FillUpFragment extends SherlockFragment {
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
         mDualPane = pane2 != null && pane2.getVisibility() == View.VISIBLE;
 
+        if(!mDualPane) { // Set the following only if there's a spinner available. As in, no dual panes
+            getSherlockActivity().getActionBar().setSelectedNavigationItem(0);
+        }
+
         vehicleDBHelper = new VehicleDBHelper(mContext);
         fillupDBHelper = new FillupDBHelper(mContext);
 
@@ -78,6 +85,15 @@ public class FillUpFragment extends SherlockFragment {
         saveLocation = (CheckBox) getSherlockActivity().findViewById(R.id.savelocationckbx);
         partialFillup = (CheckBox) getSherlockActivity().findViewById(R.id.partialfillupckbx);
         saveFillupButton = (Button) getSherlockActivity().findViewById(R.id.savefillupbtn);
+        dateEditText = (EditText) getSherlockActivity().findViewById(R.id.dateedittext);
+        timeEditText = (EditText) getSherlockActivity().findViewById(R.id.timeedittext);
+
+        long millis = new Date().getTime();
+        String date = DateUtils.formatDateTime(mContext, millis, DateUtils.FORMAT_SHOW_DATE);
+        String time = DateUtils.formatDateTime(mContext, millis, DateUtils.FORMAT_SHOW_TIME + DateUtils.FORMAT_24HOUR);
+
+        dateEditText.setText(date);
+        timeEditText.setText(time);
 
         Cursor cursor = vehicleDBHelper.getAllVehicles();
         if(cursor == null) {
@@ -89,23 +105,32 @@ public class FillUpFragment extends SherlockFragment {
         } else {
             cursor.moveToFirst(); // Move to first to start reading
             // cursor.moveToNext(); // Move to the next one to skip one default row
-            Log.w(LOGTAG, "FillUpFragment : onActivityCreated : " + cursor.getCount() + " vehicles found");
-            Toast.makeText(mContext, (cursor.getCount() - 1) + " vehicles found", Toast.LENGTH_SHORT).show();
+
+            String[] projection = new String[] {"NAME"};
+            int[] mapTo = new int[] {android.R.id.text1};
+
+            SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
+                    R.layout.cl_spinner_item,
+                    cursor,
+                    projection,
+                    mapTo,
+                    0);
+
+            fillupFor.setAdapter(simpleCursorAdapter);
+
+            // Save one Cursor and calls to DB by searching for default vehicle right here
+            int isDefault = cursor.getInt(3);
+            while(cursor.moveToNext()) {
+                if(isDefault == 1) {
+                    cursor.moveToPrevious(); // We already moved one ahead. Rewind one.
+                    fillupFor.setSelection(cursor.getPosition());
+                    // populateVehicleData(defaultVehicleId);
+                    break;
+                } else {
+                    isDefault = cursor.getInt(3);
+                }
+            }
         }
-
-        String[] projection = new String[] {"NAME"};
-        int[] mapTo = new int[] {android.R.id.text1};
-
-        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
-                R.layout.cl_spinner_item,
-                cursor,
-                projection,
-                mapTo,
-                0);
-
-        fillupFor.setAdapter(simpleCursorAdapter);
-
-        fillupFor.setSelection(1);
     }
 
 
@@ -146,8 +171,8 @@ public class FillUpFragment extends SherlockFragment {
         return super.onOptionsItemSelected(menuItem);
     }
 
-    private void saveFillup() {
-        fillupDBHelper.saveFillup(
+    private boolean saveFillup() {
+        return fillupDBHelper.saveFillup(
                 Float.parseFloat(volumeEditText.getText().toString()),
                 distanceEditText.getText().toString(),
                 Float.parseFloat(priceEditText.getText().toString()),

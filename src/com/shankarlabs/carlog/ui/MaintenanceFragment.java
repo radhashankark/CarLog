@@ -40,7 +40,7 @@ public class MaintenanceFragment extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View fragmentView = inflater.inflate(R.layout.oilchange, container, false);
+        View fragmentView = inflater.inflate(R.layout.maintenance, container, false);
         return fragmentView;
     }
 
@@ -51,6 +51,10 @@ public class MaintenanceFragment extends SherlockFragment {
         // Get the status of the dual panes
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
         mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
+
+        if(!mDualPane) { // Set the following only if there's a spinner available. As in, no dual panes
+            getSherlockActivity().getActionBar().setSelectedNavigationItem(1);
+        }
     }
 
     @Override
@@ -85,10 +89,10 @@ public class MaintenanceFragment extends SherlockFragment {
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();
                 break;
-            case R.id.save:
+            case R.id.savemaintenance:
                 Log.d(LOGTAG, "MaintenanceFragment : onOptionsItemSelected : Saving all data");
                 Toast.makeText(mContext, "Saving", Toast.LENGTH_SHORT).show();
-                Log.d(LOGTAG, "MaintenanceFragment : onOptionsItemSelected : Saving all data");
+                // saveMaintenance();
                 break;
             default:
                 break;

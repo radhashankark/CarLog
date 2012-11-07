@@ -102,7 +102,7 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         if(database == null)
             database = getWritableDatabase();
 
-        String query = "SELECT _id from " + DATABASE_NAME + " WHERE ISDEFAULT = '1'";
+        String query = "SELECT _id from " + DATABASE_NAME + " WHERE ISDEFAULT = 1";
         Cursor cursor = database.rawQuery(query, null);
 
         if(cursor == null) {
@@ -121,20 +121,26 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         if(database == null)
             database = getWritableDatabase();
 
-        String query = "SELECT * from " + DATABASE_NAME + " WHERE _id = '" + id + "'";
-        Cursor cursor = database.rawQuery(query, null);
+        // String query = "SELECT * from " + DATABASE_NAME + " WHERE _id = '" + id + "'";
+        Cursor cursor = database.rawQuery(SELECT_ALL_QUERY, null);
 
         if(cursor == null) {
-            Log.w(LOGTAG, "VehicleDBHelper : getDefaultVehicleId : Cursor is null");
+            Log.w(LOGTAG, "VehicleDBHelper : getVehicleData : Cursor is null");
             return null;
         } else if(cursor.getCount() == 0) {
-            Log.w(LOGTAG, "VehicleDBHelper : getDefaultVehicleId : Zero results");
+            Log.w(LOGTAG, "VehicleDBHelper : getVehicleData : Zero results");
             return null;
         } else {
-            cursor.moveToFirst();
+            cursor.moveToPosition(id);
             String[] vehicleData = new String[6];
 
             vehicleData[0] = "" + cursor.getInt(0);
+            vehicleData[1] = "" + cursor.getInt(1);
+            vehicleData[2] = cursor.getString(2);
+            vehicleData[3] = "" + cursor.getInt(3);
+            vehicleData[4] = "" + cursor.getInt(4);
+            vehicleData[5] = cursor.getString(5);
+
             return vehicleData;
         }
     }

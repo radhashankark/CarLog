@@ -3,7 +3,7 @@
     <string-array name="spinner_main">
         <item>Fill Up</item>
         <item>Maintenance</item>
-        <item>Vehicle Types</item>
+        <item>Vehicles</item>
         <item>Maintenance Types</item>
         <item>Statistics</item>
     </string-array>

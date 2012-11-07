@@ -63,6 +63,10 @@ public class StatisticsFragment extends SherlockFragment {
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
         mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
 
+        if(!mDualPane) { // Set the following only if there's a spinner available. As in, no dual panes
+            getSherlockActivity().getActionBar().setSelectedNavigationItem(4);
+        }
+
         statsFor = (Spinner) getSherlockActivity().findViewById(R.id.statsfor);
         statsUnits = (Spinner) getSherlockActivity().findViewById(R.id.statsunits);
         mileage = (TextView) getSherlockActivity().findViewById(R.id.mileage);
@@ -89,21 +93,33 @@ public class StatisticsFragment extends SherlockFragment {
         } else {
             cursor.moveToFirst(); // Move to first to start reading
             // cursor.moveToNext(); // Move to the next one to skip one default row
-            Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : " + cursor.getCount() + " vehicles found");
-            Toast.makeText(mContext, (cursor.getCount() - 1) + " vehicles found", Toast.LENGTH_SHORT).show();
+
+            String[] projection = {"NAME"};
+            int[] mapTo = {android.R.id.text1};
+
+            SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
+                    R.layout.cl_spinner_item,
+                    cursor,
+                    projection,
+                    mapTo,
+                    0);
+
+            statsFor.setAdapter(simpleCursorAdapter);
+
+            // If we have more than one vehicles saved, set the default vehicle in the spinner
+            // Save one Cursor and calls to DB by searching for default vehicle right here
+            int isDefault = cursor.getInt(3);
+            while(cursor.moveToNext()) {
+                if(isDefault == 1) {
+                    cursor.moveToPrevious(); // We already moved one ahead. Rewind one.
+                    statsFor.setSelection(cursor.getPosition());
+                    // populateVehicleData(defaultVehicleId);
+                    break;
+                } else {
+                    isDefault = cursor.getInt(3);
+                }
+            }
         }
-
-        String[] projection = {"NAME"};
-        int[] mapTo = {android.R.id.text1};
-
-        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
-                R.layout.cl_spinner_item,
-                cursor,
-                projection,
-                mapTo,
-                0);
-
-        statsFor.setAdapter(simpleCursorAdapter);
     }
 
     @Override

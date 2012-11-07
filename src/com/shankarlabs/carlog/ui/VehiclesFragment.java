@@ -9,10 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -29,6 +26,7 @@ public class VehiclesFragment extends SherlockFragment {
     private static VehicleDBHelper vehicleDBHelper;
     private Spinner vehicleNames, unitsUsed;
     private EditText vehicleCode, vehicleName, vehicleDescription;
+    private CheckBox defaultVehicle;
 
 
     public VehiclesFragment(Context context) {
@@ -63,10 +61,14 @@ public class VehiclesFragment extends SherlockFragment {
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
         mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
 
+        if(!mDualPane) { // Set the following only if there's a spinner available. As in, no dual panes
+            getSherlockActivity().getActionBar().setSelectedNavigationItem(2);
+        }
 
         vehicleNames = (Spinner) getSherlockActivity().findViewById(R.id.vehiclenames);
         vehicleCode = (EditText) getSherlockActivity().findViewById(R.id.vehiclecode);
         vehicleName = (EditText) getSherlockActivity().findViewById(R.id.vehiclename);
+        defaultVehicle = (CheckBox) getSherlockActivity().findViewById(R.id.defaultvehicle);
         unitsUsed = (Spinner) getSherlockActivity().findViewById(R.id.units);
         vehicleDescription = (EditText) getSherlockActivity().findViewById(R.id.description);
 
@@ -78,39 +80,51 @@ public class VehiclesFragment extends SherlockFragment {
         // Populate the Vehicle types
         Cursor cursor = vehicleDBHelper.getAllVehicles();
         if(cursor == null) {
-            Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : All Vehicle Names Cursor is null");
+            Log.w(LOGTAG, "VehiclesFragment : onActivityCreated : All Vehicle Names Cursor is null");
             Toast.makeText(mContext, "No vehicle names found", Toast.LENGTH_SHORT).show();
         } else if(cursor.getCount() == 0) {
-            Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : Zero vehicles found");
+            Log.w(LOGTAG, "VehiclesFragment : onActivityCreated : Zero vehicles found");
             Toast.makeText(mContext, "No vehicles saved", Toast.LENGTH_SHORT).show();
         } else {
-            cursor.moveToFirst(); // Move to first to start reading
+            // cursor.moveToFirst(); // Move to first to start reading
             // cursor.moveToNext(); // Move to the next one to skip one default row
-            Log.w(LOGTAG, "StatisticsFragment : onActivityCreated : " + cursor.getCount() + " vehicles found");
-            Toast.makeText(mContext, cursor.getCount() + " vehicles found", Toast.LENGTH_SHORT).show();
+
+            String[] projection = {"NAME"};
+            int[] mapTo = {android.R.id.text1};
+
+            SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
+                    R.layout.cl_spinner_item,
+                    cursor,
+                    projection,
+                    mapTo,
+                    0);
+
+            // simpleCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            vehicleNames.setAdapter(simpleCursorAdapter);
+
+            // If we have more than one vehicles saved, set the default vehicle in the spinner
+            // Save one Cursor and calls to DB by searching for default vehicle right here
+            int isDefault = cursor.getInt(3);
+            while(cursor.moveToNext()) {
+                if(isDefault == 1) {
+                    cursor.moveToPrevious(); // We already moved one ahead. Rewind one.
+                    vehicleNames.setSelection(cursor.getPosition());
+                    // populateVehicleData(defaultVehicleId);
+                    break;
+                } else {
+                    isDefault = cursor.getInt(3);
+                }
+            }
         }
-
-        String[] projection = {"NAME"};
-        int[] mapTo = {android.R.id.text1};
-
-        SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
-                R.layout.cl_spinner_item,
-                cursor,
-                projection,
-                mapTo,
-                0);
-
-        // simpleCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        vehicleNames.setAdapter(simpleCursorAdapter);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // MenuInflater menuInflater = getSherlockActivity().getSupportMenuInflater();
         menu.clear(); // First clear out all the elements in the menu
-        // getSherlockActivity().onCreateOptionsMenu(menu); // Add the Activity's options menu
-        // menuInflater.inflate(R.menu.vehicles, menu);
+        getSherlockActivity().onCreateOptionsMenu(menu); // Add the Activity's options menu
+        menuInflater.inflate(R.menu.vehicles, menu);
 
         super.onCreateOptionsMenu(menu, menuInflater);
     }
@@ -136,6 +150,10 @@ public class VehiclesFragment extends SherlockFragment {
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
                 ft.commit();
                 break;
+            case R.id.savevehicle:
+                Log.d(LOGTAG, "VehiclesFragment : onOptionsItemSelected : Saving Vehicle " + vehicleNames.getSelectedItem().toString());
+                Toast.makeText(mContext, "Saving vehicle " + vehicleNames.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                saveVehicle();
             default:
                 break;
         }
@@ -145,13 +163,38 @@ public class VehiclesFragment extends SherlockFragment {
     AdapterView.OnItemSelectedListener vehicleNamesOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
 
         @Override
-        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            //To change body of implemented methods use File | Settings | File Templates.
+        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            // When a vehicle is selected, get vehicle data and populate the fields
+            populateVehicleData(position);
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-            //To change body of implemented methods use File | Settings | File Templates.
+            // Not sure when this is triggered. So do nothing
+            Log.d(LOGTAG, "VehiclesFragment : onNothingSelected : Nothing selected");
         }
     };
+
+    private boolean saveVehicle() {
+        return vehicleDBHelper.saveVehicle(Integer.parseInt(vehicleCode.getText().toString()),
+                vehicleName.getText().toString(),
+                defaultVehicle.isChecked() ? 1 : 0,
+                unitsUsed.getSelectedItemPosition(),
+                vehicleDescription.getText().toString());
+    }
+
+    private void populateVehicleData(int id) {
+        String[] vehicleData = vehicleDBHelper.getVehicleData(id);
+        if(vehicleData != null) {
+            // Populate all fields
+            vehicleCode.setText(vehicleData[1]);
+            vehicleName.setText(vehicleData[2]);
+            unitsUsed.setSelection(Integer.parseInt(vehicleData[4]));
+            vehicleDescription.setText(vehicleData[5]);
+        } else {
+            Log.w(LOGTAG, "VehiclesFragment : populateVehicleData : Vehicle Data is null for position " + id);
+            Toast.makeText(mContext, "No vehicle data found for ID " + id, Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }

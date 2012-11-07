@@ -50,6 +50,9 @@ public class MaintenanceTypesFragment extends SherlockFragment {
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
         mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
 
+        if(!mDualPane) { // Set the following only if there's a spinner available. As in, no dual panes
+            getSherlockActivity().getActionBar().setSelectedNavigationItem(3);
+        }
     }
 
     @Override
