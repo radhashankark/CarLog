@@ -14,13 +14,13 @@ public class DashboardFragment extends SherlockFragment {
 
     private boolean mDualPane = true; // The mDualPane is always true when we're dealing with DashboardFragment
     private Button fillupsTextView, maintenanceTextView, vehicleTypesTextView, maintenanceTypesTextView, statisticsTextView;
-    private static Context mContext;
+    // private static Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mContext = getSherlockActivity().getApplicationContext();
+        // mContext = getSherlockActivity().getApplicationContext();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new FillUpFragment(mContext);
+                SherlockFragment fillUpFragment = new FillUpFragment();
                 ft.replace(R.id.pane2_fragment, fillUpFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -66,7 +66,7 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment maintenanceFragment = new MaintenanceFragment(mContext);
+                SherlockFragment maintenanceFragment = new MaintenanceFragment();
                 ft.replace(R.id.pane2_fragment, maintenanceFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -80,7 +80,7 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment vehiclesFragment = new VehiclesFragment(mContext);
+                SherlockFragment vehiclesFragment = new VehiclesFragment();
                 ft.replace(R.id.pane2_fragment, vehiclesFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -94,7 +94,7 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment maintenanceTypesFragment = new MaintenanceTypesFragment(mContext);
+                SherlockFragment maintenanceTypesFragment = new MaintenanceTypesFragment();
                 ft.replace(R.id.pane2_fragment, maintenanceTypesFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -108,7 +108,7 @@ public class DashboardFragment extends SherlockFragment {
         public void onClick(View view) {
             if(mDualPane) { // If we have dual panes, put a fragment in the second pane
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment statisticsFragment = new StatisticsFragment(mContext);
+                SherlockFragment statisticsFragment = new StatisticsFragment();
                 ft.replace(R.id.pane2_fragment, statisticsFragment);
                 ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 // ft.addToBackStack(null); // Dont commit because there's nothing to go back to

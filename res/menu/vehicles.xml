@@ -8,4 +8,10 @@
           android:orderInCategory="1"
           android:showAsAction="ifRoom|withText|collapseActionView" />
 
+    <item android:id="@+id/deletevehicle"
+          android:title="Delete"
+          android:icon="@drawable/ic_action_delete"
+          android:orderInCategory="2"
+          android:showAsAction="ifRoom|withText|collapseActionView" />
+
 </menu>

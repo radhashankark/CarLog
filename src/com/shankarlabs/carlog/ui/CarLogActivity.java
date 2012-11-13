@@ -66,7 +66,7 @@ public class CarLogActivity extends SherlockFragmentActivity {
                     switch(itemPosition) { // Assuming the callback is a zero-based position system
                         case 0: // Fill Up
                             Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 0. Fill Up.");
-                            SherlockFragment fillUpFragment = new FillUpFragment(mContext);
+                            SherlockFragment fillUpFragment = new FillUpFragment();
                             ft.replace(R.id.pane1_fragment, fillUpFragment);
                             // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -74,7 +74,7 @@ public class CarLogActivity extends SherlockFragmentActivity {
                             return true;  // We handled the callback; We don't need anyone else to handle it
                         case 1: // Oil Changes
                             Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 1. Maintenance.");
-                            SherlockFragment maintenanceFragment = new MaintenanceFragment(mContext);
+                            SherlockFragment maintenanceFragment = new MaintenanceFragment();
                             ft.replace(R.id.pane1_fragment, maintenanceFragment);
                             // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -82,7 +82,7 @@ public class CarLogActivity extends SherlockFragmentActivity {
                             return true;  // We handled the callback; We don't need anyone else to handle it
                         case 2: // Vehicle Types
                             Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 2. Vehicle Types.");
-                            SherlockFragment vehicleTypesFragment = new VehiclesFragment(mContext);
+                            SherlockFragment vehicleTypesFragment = new VehiclesFragment();
                             ft.replace(R.id.pane1_fragment, vehicleTypesFragment);
                             // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -90,7 +90,7 @@ public class CarLogActivity extends SherlockFragmentActivity {
                             return true;  // We handled the callback; We don't need anyone else to handle it
                         case 3: // Maintenance Types
                             Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 3. Maintenance Types.");
-                            SherlockFragment maintenanceTypesFragment = new MaintenanceTypesFragment(mContext);
+                            SherlockFragment maintenanceTypesFragment = new MaintenanceTypesFragment();
                             ft.replace(R.id.pane1_fragment, maintenanceTypesFragment);
                             // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -98,7 +98,7 @@ public class CarLogActivity extends SherlockFragmentActivity {
                             return true;  // We handled the callback; We don't need anyone else to handle it
                         case 4: // Statistics
                             Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 3. Statistics.");
-                            SherlockFragment statisticsFragment = new StatisticsFragment(mContext);
+                            SherlockFragment statisticsFragment = new StatisticsFragment();
                             ft.replace(R.id.pane1_fragment, statisticsFragment);
                             // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                             // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -115,7 +115,7 @@ public class CarLogActivity extends SherlockFragmentActivity {
         } else { // We have two panes. Populate the second pane
             Log.d(LOGTAG, "CarLogActivity : onCreate : We have two panes. Showing FillupFragment.");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            SherlockFragment fillUpFragment = new FillUpFragment(mContext);
+            SherlockFragment fillUpFragment = new FillUpFragment();
             ft.replace(R.id.pane2_fragment, fillUpFragment);
             // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
@@ -151,11 +151,6 @@ public class CarLogActivity extends SherlockFragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int itemId = menuItem.getItemId();
-
-        // This is a good time to figure out if we have dual panes
-        // TODO Figure out if mDualpane needs detection at a later point of time
-        // View pane2 = findViewById(R.id.pane2_fragment);
-        // mDualPane = pane2 != null &&  pane2.getVisibility() == View.VISIBLE;
 
         // We handle only Settings in the Main menu; The rest of the options are added by the Fragments. We let them handle those.
         switch (itemId) {

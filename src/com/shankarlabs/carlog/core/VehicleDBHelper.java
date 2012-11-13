@@ -25,6 +25,8 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
 
     private final String INITIAL_DATA_NEW = "INSERT INTO " + DATABASE_NAME + " VALUES (null, 0, 'New', 0, 0, 'New Vehicle')";
     private final String INITIAL_DATA_DEFAULT = "INSERT INTO " + DATABASE_NAME + " VALUES (null, 1, 'Default', 1, 0, 'Default Vehicle')";
+    private final String INITIAL_DATA_TEST1 = "INSERT INTO " + DATABASE_NAME + " VALUES (null, 12, 'Test Vehicle 1', 0, 1, 'Test Vehicle 1, using Metric system')";
+    private final String INITIAL_DATA_TEST2 = "INSERT INTO " + DATABASE_NAME + " VALUES (null, 321, 'Test Vehicle 2', 0, 0, 'Test Vehicle 2 just because.')";
 
     private final String SELECT_ALL_QUERY = " SELECT * FROM " + DATABASE_NAME;
     private final String SELECT_ALL_NAMES = " SELECT NAME FROM " + DATABASE_NAME;
@@ -41,6 +43,8 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         db.execSQL(TABLE_CREATE);
         db.execSQL(INITIAL_DATA_NEW);
         db.execSQL(INITIAL_DATA_DEFAULT);
+        db.execSQL(INITIAL_DATA_TEST1);
+        db.execSQL(INITIAL_DATA_TEST2);
         Log.d(LOGTAG, "VehicleDBHelper : onCreate : Created Database and inserted data");
     }
 
@@ -62,6 +66,9 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         if(database == null)
             database = getWritableDatabase();
 
+        if(isDefault == 1) // There's a new default vehicle. Reset old default vehicle(s)
+            resetDefaultVehicle();
+
         ContentValues values = new ContentValues();
 
         values.put("_id", (Integer) null);
@@ -81,9 +88,12 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         if(database == null)
             database = getWritableDatabase();
 
+        if(isDefault == 1) // There's a new default vehicle. Reset old default vehicle(s)
+            resetDefaultVehicle();
+
         ContentValues values = new ContentValues();
 
-        values.put("CODE", code);
+        // values.put("CODE", code);
         values.put("NAME", name);
         values.put("ISDEFAULT", isDefault);
         values.put("UNITSUSED", units);
@@ -93,6 +103,35 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         String[] whereArgs = {"" + code};
 
         if(database.update(DATABASE_NAME, values, whereClause, whereArgs) > 0)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean deleteVehicle(int code) {
+        if(database == null)
+            database = getWritableDatabase();
+
+        String whereClause = "code = ?";
+        String[] whereArgs = {"" + code};
+
+        if(database.delete(DATABASE_NAME, whereClause, whereArgs) > 0)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean resetDefaultVehicle() {
+        Log.w(LOGTAG, "VehicleDBHelper : resetDefaultVehicle : Removing all default vehicle(s)");
+
+        if(database == null)
+            database = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put("ISDEFAULT", 0);
+
+        if(database.update(DATABASE_NAME, values, null, null) > 0)
             return true;
         else
             return false;
@@ -131,6 +170,7 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
             Log.w(LOGTAG, "VehicleDBHelper : getVehicleData : Zero results");
             return null;
         } else {
+            Log.d(LOGTAG, "VehicleDBHelper : getVehicleData : Moving Cursor to position " + id);
             cursor.moveToPosition(id);
             String[] vehicleData = new String[6];
 

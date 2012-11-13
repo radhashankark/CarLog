@@ -3,6 +3,7 @@ package com.shankarlabs.carlog.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
@@ -32,10 +33,8 @@ public class StatisticsFragment extends SherlockFragment {
     private VehicleDBHelper vehicleDBHelper;
     private FillupDBHelper fillupDBHelper;
 
-    public StatisticsFragment(Context context) {
+    public StatisticsFragment() {
         super();
-
-        mContext = context;
     }
 
     @Override
@@ -58,6 +57,8 @@ public class StatisticsFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mContext = getSherlockActivity().getApplicationContext();
 
         // Get the status of the dual panes
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
@@ -144,7 +145,7 @@ public class StatisticsFragment extends SherlockFragment {
         switch (itemId) {
             case android.R.id.home :
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new FillUpFragment(mContext);
+                SherlockFragment fillUpFragment = new FillUpFragment();
                 if(mDualPane)
                     ft.replace(R.id.pane2_fragment, fillUpFragment);
                 else

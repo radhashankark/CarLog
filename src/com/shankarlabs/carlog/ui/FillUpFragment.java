@@ -36,12 +36,8 @@ public class FillUpFragment extends SherlockFragment {
     private FillupDBHelper fillupDBHelper;
     private SharedPreferences sharedPreferences;
 
-    public FillUpFragment (Context context) {
+    public FillUpFragment () {
         super();
-
-        mContext = context;
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @Override
@@ -65,6 +61,9 @@ public class FillUpFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mContext = getSherlockActivity().getApplicationContext();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         // Get Pane2 status
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);

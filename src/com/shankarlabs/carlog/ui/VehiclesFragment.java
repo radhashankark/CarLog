@@ -3,6 +3,7 @@ package com.shankarlabs.carlog.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
@@ -22,18 +23,17 @@ public class VehiclesFragment extends SherlockFragment {
 
     private static Context mContext;
     private static boolean mDualPane;
+    private boolean newVehicle;
     private final static String LOGTAG = "CarLog";
     private static VehicleDBHelper vehicleDBHelper;
     private Spinner vehicleNames, unitsUsed;
     private EditText vehicleCode, vehicleName, vehicleDescription;
     private CheckBox defaultVehicle;
+    private static SimpleCursorAdapter simpleCursorAdapter;
 
 
-    public VehiclesFragment(Context context) {
+    public VehiclesFragment() {
         super();
-
-        mContext = context;
-
     }
 
     @Override
@@ -56,6 +56,8 @@ public class VehiclesFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mContext = getSherlockActivity().getApplicationContext();
 
         // Get the status of the dual panes
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
@@ -92,7 +94,7 @@ public class VehiclesFragment extends SherlockFragment {
             String[] projection = {"NAME"};
             int[] mapTo = {android.R.id.text1};
 
-            SimpleCursorAdapter simpleCursorAdapter = new SimpleCursorAdapter(mContext,
+            simpleCursorAdapter = new SimpleCursorAdapter(mContext,
                     R.layout.cl_spinner_item,
                     cursor,
                     projection,
@@ -141,7 +143,7 @@ public class VehiclesFragment extends SherlockFragment {
         switch (itemId) {
             case android.R.id.home :
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new FillUpFragment(mContext);
+                SherlockFragment fillUpFragment = new FillUpFragment();
                 if(mDualPane)
                     ft.replace(R.id.pane2_fragment, fillUpFragment);
                 else
@@ -151,9 +153,15 @@ public class VehiclesFragment extends SherlockFragment {
                 ft.commit();
                 break;
             case R.id.savevehicle:
-                Log.d(LOGTAG, "VehiclesFragment : onOptionsItemSelected : Saving Vehicle " + vehicleNames.getSelectedItem().toString());
-                Toast.makeText(mContext, "Saving vehicle " + vehicleNames.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                Log.d(LOGTAG, "VehiclesFragment : onOptionsItemSelected : Saving Vehicle " + vehicleName.getText());
+                Toast.makeText(mContext, "Saving Vehicle " + vehicleName.getText(), Toast.LENGTH_SHORT).show();
                 saveVehicle();
+                break;
+            case R.id.deletevehicle:
+                Log.d(LOGTAG, "VehiclesFragment : onOptionsItemSelected : Deleting Vehicle " + vehicleName.getText());
+                Toast.makeText(mContext, "Deleting Vehicle " + vehicleName.getText(), Toast.LENGTH_SHORT).show();
+                deleteVehicle();
+                break;
             default:
                 break;
         }
@@ -165,6 +173,13 @@ public class VehiclesFragment extends SherlockFragment {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             // When a vehicle is selected, get vehicle data and populate the fields
+            if(position == 0) { // New Vehicle selected
+                vehicleCode.setEnabled(true);
+                newVehicle = true;
+            } else {
+                vehicleCode.setEnabled(false);
+                newVehicle = false;
+            }
             populateVehicleData(position);
         }
 
@@ -176,25 +191,122 @@ public class VehiclesFragment extends SherlockFragment {
     };
 
     private boolean saveVehicle() {
-        return vehicleDBHelper.saveVehicle(Integer.parseInt(vehicleCode.getText().toString()),
-                vehicleName.getText().toString(),
-                defaultVehicle.isChecked() ? 1 : 0,
-                unitsUsed.getSelectedItemPosition(),
-                vehicleDescription.getText().toString());
+        boolean saveResult;
+
+        // Figure out if the data is good for insertion
+
+
+        if(newVehicle) { // New vehicle. Insert the Data
+            saveResult = vehicleDBHelper.saveVehicle(Integer.parseInt(vehicleCode.getText().toString()),
+                    vehicleName.getText().toString(),
+                    defaultVehicle.isChecked() ? 1 : 0,
+                    unitsUsed.getSelectedItemPosition(),
+                    vehicleDescription.getText().toString());
+        } else { // Old vehicle. Update the data
+            saveResult = vehicleDBHelper.updateVehicle(Integer.parseInt(vehicleCode.getText().toString()),
+                    vehicleName.getText().toString(),
+                    defaultVehicle.isChecked() ? 1 : 0,
+                    unitsUsed.getSelectedItemPosition(),
+                    vehicleDescription.getText().toString());
+        }
+
+        if(saveResult) { // Save success
+            Log.d(LOGTAG, "VehiclesFragment : saveVehicle : Vehicle saved successfully");
+            Toast.makeText(mContext, "Vehicle saved successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.w(LOGTAG, "VehiclesFragment : saveVehicle : Vehicle could not be saved");
+            Toast.makeText(mContext, "Vehicle could not be saved", Toast.LENGTH_SHORT).show();
+        }
+
+        // simpleCursorAdapter.notifyDataSetChanged();
+        resetCursorAdapter();
+        return saveResult;
+    }
+
+    private boolean deleteVehicle() {
+        boolean deleteResult;
+
+        if(newVehicle) { // New vehicle. Insert the Data
+            Log.w(LOGTAG, "VehiclesFragment : deleteVehicle : Cannot delete new vehicle");
+            Toast.makeText(mContext, "Cannot delete this vehicle", Toast.LENGTH_SHORT).show();
+            deleteResult = false;
+        } else { // Old vehicle. Update the data
+            deleteResult = vehicleDBHelper.deleteVehicle(Integer.parseInt(vehicleCode.getText().toString()));
+        }
+
+        if(deleteResult) { // Save success
+            Log.d(LOGTAG, "VehiclesFragment : deleteVehicle : Vehicle deleted successfully");
+            Toast.makeText(mContext, "Vehicle deleted successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.w(LOGTAG, "VehiclesFragment : deleteVehicle : Vehicle could not be deleted");
+            Toast.makeText(mContext, "Vehicle could not be deleted", Toast.LENGTH_SHORT).show();
+        }
+
+        // simpleCursorAdapter.notifyDataSetChanged();
+        resetCursorAdapter();
+        return deleteResult;
     }
 
     private void populateVehicleData(int id) {
-        String[] vehicleData = vehicleDBHelper.getVehicleData(id);
-        if(vehicleData != null) {
-            // Populate all fields
-            vehicleCode.setText(vehicleData[1]);
-            vehicleName.setText(vehicleData[2]);
-            unitsUsed.setSelection(Integer.parseInt(vehicleData[4]));
-            vehicleDescription.setText(vehicleData[5]);
+        Log.d(LOGTAG, "VehiclesFragment : populateVehicleData : Fetching data for Vehicle ID " + id);
+        if(id ==0) { // It's a new vehicle. Clear everything out.
+            vehicleCode.setText("");
+            vehicleName.setText("");
+            unitsUsed.setSelection(0);
+            vehicleDescription.setText("");
         } else {
-            Log.w(LOGTAG, "VehiclesFragment : populateVehicleData : Vehicle Data is null for position " + id);
-            Toast.makeText(mContext, "No vehicle data found for ID " + id, Toast.LENGTH_SHORT).show();
-        }
+            String[] vehicleData = vehicleDBHelper.getVehicleData(id);
+            if(vehicleData != null) {
+                // Populate all fields
+                vehicleCode.setText(vehicleData[1]);
+                vehicleName.setText(vehicleData[2]);
+                unitsUsed.setSelection(Integer.parseInt(vehicleData[4]));
+                vehicleDescription.setText(vehicleData[5]);
 
+                if(Integer.parseInt(vehicleData[3]) == 1) { // We're dealing with a default vehicle
+                    defaultVehicle.setText("This is the default vehicle");
+                    defaultVehicle.setChecked(true);
+                    defaultVehicle.setEnabled(false);
+                } else {
+                    defaultVehicle.setText("Set as Default vehicle");
+                    defaultVehicle.setChecked(false);
+                    defaultVehicle.setEnabled(true);
+                }
+
+            } else {
+                Log.w(LOGTAG, "VehiclesFragment : populateVehicleData : Vehicle Data is null for position " + id);
+                Toast.makeText(mContext, "No vehicle data found for ID " + id, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void resetCursorAdapter() {
+        // Populate the Vehicle types
+        Cursor cursor = vehicleDBHelper.getAllVehicles();
+        if(cursor == null) {
+            Log.w(LOGTAG, "VehiclesFragment : resetCursorAdapter : All Vehicle Names Cursor is null");
+            Toast.makeText(mContext, "No vehicle names found", Toast.LENGTH_SHORT).show();
+        } else if(cursor.getCount() == 0) {
+            Log.w(LOGTAG, "VehiclesFragment : resetCursorAdapter : Zero vehicles found");
+            Toast.makeText(mContext, "No vehicles saved", Toast.LENGTH_SHORT).show();
+        } else {
+            // cursor.moveToFirst(); // Move to first to start reading
+            // cursor.moveToNext(); // Move to the next one to skip one default row
+
+            String[] projection = {"NAME"};
+            int[] mapTo = {android.R.id.text1};
+
+            simpleCursorAdapter = new SimpleCursorAdapter(mContext,
+                    R.layout.cl_spinner_item,
+                    cursor,
+                    projection,
+                    mapTo,
+                    0);
+
+            // simpleCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            vehicleNames.setAdapter(simpleCursorAdapter);
+            vehicleNames.setSelection(1); // 1 is the index of the vehicle right after the new placeholder
+        }
     }
 }

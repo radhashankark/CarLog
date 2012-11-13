@@ -2,6 +2,7 @@ package com.shankarlabs.carlog.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,8 @@ public class MaintenanceTypesFragment extends SherlockFragment {
     private static Context mContext;
     private final static String LOGTAG = "CarLog";
 
-    public MaintenanceTypesFragment(Context context) {
+    public MaintenanceTypesFragment() {
         super();
-
-        mContext = context;
     }
 
     @Override
@@ -45,6 +44,8 @@ public class MaintenanceTypesFragment extends SherlockFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        mContext = getSherlockActivity().getApplicationContext();
 
         // Get the status of the dual panes
         View pane2 = getSherlockActivity().findViewById(R.id.pane2_fragment);
@@ -77,7 +78,7 @@ public class MaintenanceTypesFragment extends SherlockFragment {
         switch (itemId) {
             case android.R.id.home :
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                SherlockFragment fillUpFragment = new FillUpFragment(mContext);
+                SherlockFragment fillUpFragment = new FillUpFragment();
                 if(mDualPane)
                     ft.replace(R.id.pane2_fragment, fillUpFragment);
                 else
