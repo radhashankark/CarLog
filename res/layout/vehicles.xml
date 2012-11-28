@@ -1,83 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:gravity="center" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center" >
 
-    <Spinner
-        android:id="@+id/vehiclenames"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:layout_gravity="center" >
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="Vehicle Code"
-            android:textSize="16dp"
-            android:layout_gravity="left|center_vertical"/>
+        <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center" >
 
-    <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:id="@+id/vehiclecode"
-            android:hint="One-time set Integer Value, Ex. 2"
-            android:inputType="number"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Details of "
+                    android:textSize="18dp"
+                    android:layout_gravity="left|center_vertical"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="Vehicle Name"
-            android:textSize="16dp"
-            android:layout_gravity="left|center_vertical"/>
+            <Spinner
+                android:id="@+id/vehiclenames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
 
-    <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:id="@+id/vehiclename"
-            android:hint="Vehicle Name"
-            android:inputType="text"/>
+        </LinearLayout>
 
-    <CheckBox
-            android:id="@+id/defaultvehicle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Set as deault vehicle" />
+        <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center" >
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="Units Used"
-            android:textSize="16dp"
-            android:layout_gravity="left|center_vertical"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:text="Vehicle Code"
+                    android:textSize="18dp"
+                    android:layout_gravity="left|center_vertical"/>
 
-    <Spinner
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:id="@+id/units"
-            android:entries="@array/units"/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:id="@+id/vehiclecode"
+                    android:hint="One-time set Integer Value, Ex. 2"
+                    android:inputType="number"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="Description"
-            android:textSize="16dp"
-            android:layout_gravity="left|center_vertical"/>
+        </LinearLayout>
 
-    <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:lines="4"
-            android:id="@+id/description"
-            android:hint="Description of the vehicle"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="Vehicle Name"
+                android:textSize="18dp"
+                android:layout_gravity="left|center_vertical"/>
 
-</LinearLayout>
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:id="@+id/vehiclename"
+                android:hint="Vehicle Name"
+                android:inputType="text"/>
+
+        <CheckBox
+                android:id="@+id/defaultvehicle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set as default vehicle"
+                android:textSize="18dp" />
+
+        <LinearLayout android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center" >
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:text="Units Used"
+                    android:textSize="18dp"
+                    android:layout_gravity="left|center_vertical"/>
+
+            <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:id="@+id/units"
+                    android:entries="@array/units"/>
+
+        </LinearLayout>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="Description"
+                android:textSize="16dp"
+                android:layout_gravity="left|center_vertical"/>
+
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:lines="4"
+                android:id="@+id/description"
+                android:hint="Description of the vehicle"/>
+
+    </LinearLayout>
+
+</ScrollView>

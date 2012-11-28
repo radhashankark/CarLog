@@ -25,7 +25,6 @@ public class FillupDBHelper extends SQLiteOpenHelper {
             " LATITUDE TEXT, " +
             " LONGITUDE TEXT, " +
             " COMMENTS TEXT, " +
-            " UNITS INTEGER, " +
             " RESETCALCULATIONS INTEGER, " +
             " IMAGELOCATION TEXT);";
 
@@ -48,7 +47,7 @@ public class FillupDBHelper extends SQLiteOpenHelper {
     }
 
     public boolean saveFillup(float quantity, String distance, float price, String date, boolean isPartial,
-                              int vehicleCode, String latitude, String longitude, String comments, int unitsUsed,
+                              int vehicleCode, String latitude, String longitude, String comments,
                               int resetCalculations, String imageLocation) {
         if(database == null)
             database = getWritableDatabase();
@@ -64,7 +63,6 @@ public class FillupDBHelper extends SQLiteOpenHelper {
         values.put("LATITUDE", latitude);
         values.put("LONGITUDE", longitude);
         values.put("COMMENTS", comments);
-        values.put("UNITS", unitsUsed);
         values.put("RESETCALCULATIONS", resetCalculations);
         values.put("IMAGELOCATION", imageLocation);
 

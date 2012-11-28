@@ -156,6 +156,11 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Gets all data about a vehicle stored at position id. The id is the position of the item on the spinner and not _id
+     * @param id Position of an item on the spinner
+     * @return String Array with _id, vehiclecode, name, isdefault, unitsused, description in that order
+     */
     public String[] getVehicleData(int id) {
         if(database == null)
             database = getWritableDatabase();
@@ -174,12 +179,12 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
             cursor.moveToPosition(id);
             String[] vehicleData = new String[6];
 
-            vehicleData[0] = "" + cursor.getInt(0);
-            vehicleData[1] = "" + cursor.getInt(1);
-            vehicleData[2] = cursor.getString(2);
-            vehicleData[3] = "" + cursor.getInt(3);
-            vehicleData[4] = "" + cursor.getInt(4);
-            vehicleData[5] = cursor.getString(5);
+            vehicleData[0] = "" + cursor.getInt(0); // _id
+            vehicleData[1] = "" + cursor.getInt(1); // vehiclecode
+            vehicleData[2] = cursor.getString(2);   // name
+            vehicleData[3] = "" + cursor.getInt(3); // isdefault
+            vehicleData[4] = "" + cursor.getInt(4); // unitsused
+            vehicleData[5] = cursor.getString(5);   // description
 
             return vehicleData;
         }

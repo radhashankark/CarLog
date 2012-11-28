@@ -94,6 +94,14 @@ public class FillUpFragment extends SherlockFragment {
         dateEditText.setText(date);
         timeEditText.setText(time);
 
+        saveFillupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveFillup();
+                resetFragment();
+            }
+        });
+
         Cursor cursor = vehicleDBHelper.getAllVehicles();
         if(cursor == null) {
             Log.w(LOGTAG, "FillUpFragment : onActivityCreated : All Vehicle Names Cursor is null");
@@ -159,6 +167,7 @@ public class FillUpFragment extends SherlockFragment {
                 Log.d(LOGTAG, "FillUpFragment : onOptionsItemSelected : Saving all data");
                 Toast.makeText(mContext, "Saving", Toast.LENGTH_SHORT).show();
                 saveFillup();
+                resetFragment();
                 break;
             case R.id.camera:
                 Log.d(LOGTAG, "FillUpFragment : onOptionsItemSelected : Starting to take a photo");
@@ -171,19 +180,47 @@ public class FillUpFragment extends SherlockFragment {
     }
 
     private boolean saveFillup() {
+        Log.d(LOGTAG, "FillUpFragment : saveFillup : Saving fillup, volume " + volumeEditText.getText().toString() +
+                        ", distance " + distanceEditText.getText().toString() +
+                        ", price " + priceEditText.getText().toString() +
+                        ", date " + dateEditText.getText().toString() +
+                        ", isPartial " + (partialFillup.isChecked() ? "yes" : "no") +
+                        // ", Vehicle " + vehicleDBHelper.getVehicleData(fillupFor.getSelectedItemPosition())[1] +
+                        ", Vehicle " + ((Cursor) fillupFor.getSelectedItem()).getInt(1) +
+                        ", Latitude " + (saveLocation.isChecked() ? sharedPreferences.getString("localGPSCache", ",,,,").split(",")[0] : "0.0000") +
+                        ", Longitude " + (saveLocation.isChecked() ? sharedPreferences.getString("localGPSCache", ",,,,").split(",")[1] : "0.0000") +
+                        ", Comments " + commentsEditText.getText().toString() +
+                        ", reset calculations : No");
+
         return fillupDBHelper.saveFillup(
                 Float.parseFloat(volumeEditText.getText().toString()),
                 distanceEditText.getText().toString(),
                 Float.parseFloat(priceEditText.getText().toString()),
                 "date",
                 partialFillup.isChecked(),
-                Integer.parseInt(fillupFor.getSelectedItem().toString()),
-                sharedPreferences.getString("latitude", "0.0000"),
-                sharedPreferences.getString("longitude", "0.0000"),
+                ((Cursor) fillupFor.getSelectedItem()).getInt(1),
+                saveLocation.isChecked() ? sharedPreferences.getString("localGPSCache", ",,,,").split(",")[0] : "0.0000",
+                saveLocation.isChecked() ? sharedPreferences.getString("localGPSCache", ",,,,").split(",")[1] : "0.0000",
                 commentsEditText.getText().toString(),
-                Integer.parseInt("Units for car"),
                 0,
                 null);
 
+    }
+
+    private void resetFragment() {
+        fillupFor.setSelection(vehicleDBHelper.getDefaultVehicleId());
+        volumeEditText.setText("");
+        priceEditText.setText("");
+        distanceEditText.setText("");
+        commentsEditText.setText("");
+        saveLocation.setChecked(true);
+        partialFillup.setChecked(false);
+
+        long millis = new Date().getTime();
+        String date = DateUtils.formatDateTime(mContext, millis, DateUtils.FORMAT_SHOW_DATE);
+        String time = DateUtils.formatDateTime(mContext, millis, DateUtils.FORMAT_SHOW_TIME + DateUtils.FORMAT_24HOUR);
+
+        dateEditText.setText(date);
+        timeEditText.setText(time);
     }
 }

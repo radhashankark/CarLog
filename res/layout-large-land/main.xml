@@ -1,26 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+              android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent" >
 
-    <fragment android:id="@+id/pane1_fragment"
-              android:name="com.shankarlabs.carlog.ui.DashboardFragment"
-              android:tag="pane1_fragment"
-              android:layout_height="match_parent"
-              android:layout_width="match_parent"
-              android:layout_weight="3" />
+    <LinearLayout android:orientation="horizontal"
+                  android:layout_width="fill_parent"
+                  android:layout_height="match_parent" >
 
-    <View android:layout_height="match_parent"
-          android:layout_width="2dp"
-          android:layout_margin="10dp"
-          android:background="#777" />
-
-    <FrameLayout  android:id="@+id/pane2_fragment"
-                  android:tag="pane2_fragment"
+        <fragment android:id="@+id/pane1_fragment"
+                  android:name="com.shankarlabs.carlog.ui.DashboardFragment"
+                  android:tag="pane1_fragment"
                   android:layout_height="match_parent"
                   android:layout_width="match_parent"
-                  android:layout_weight="2" />
+                  android:layout_weight="3" />
+
+        <View android:layout_height="match_parent"
+              android:layout_width="2dp"
+              android:layout_margin="10dp"
+              android:background="#777" />
+
+        <FrameLayout  android:id="@+id/pane2_fragment"
+                      android:tag="pane2_fragment"
+                      android:layout_height="match_parent"
+                      android:layout_width="match_parent"
+                      android:layout_weight="2" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/updates"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Status Updates"
+        android:gravity="center"
+        android:textSize="12dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
-

@@ -10,5 +10,13 @@
               android:layout_width="match_parent"
               android:layout_weight="1" />
 
+    <TextView
+        android:id="@+id/updates"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="Status Updates"
+        android:gravity="center"
+        android:textSize="12dp" />
+
 </LinearLayout>
 
