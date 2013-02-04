@@ -65,7 +65,15 @@ public class CarLogActivity extends SherlockFragmentActivity {
         sharedPreferenceEditor.putBoolean("mDualPane", mDualPane);
         sharedPreferenceEditor.commit();
 
-        if(!mDualPane) { // we have just one pane. Setup spinner in actionbar
+        if(mDualPane) { // We have two panes. Populate the second pane
+            Log.d(LOGTAG, "CarLogActivity : onCreate : We have two panes. Showing FillupFragment.");
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            SherlockFragment fillUpFragment = new FillUpFragment();
+            ft.replace(R.id.pane2_fragment, fillUpFragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+            ft.commit();
+        } else { // we have just one pane. Setup spinner in actionbar
             Log.d(LOGTAG, "CarLogActivity : onCreate : We have just one pane. Setting up Spinner.");
             setTitle("");
 
@@ -78,65 +86,66 @@ public class CarLogActivity extends SherlockFragmentActivity {
             ActionBar.OnNavigationListener spinnerNavigationListener = new ActionBar.OnNavigationListener() {
                 @Override
                 public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                    // Handle the item selected
-                    switch(itemPosition) { // Assuming the callback is a zero-based position system
-                        case 0: // Fill Up
-                            Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 0. Fill Up.");
-                            SherlockFragment fillUpFragment = new FillUpFragment();
-                            ft.replace(R.id.pane1_fragment, fillUpFragment);
-                            // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
-                            ft.commit();
-                            return true;  // We handled the callback; We don't need anyone else to handle it
-                        case 1: // Oil Changes
-                            Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 1. Maintenance.");
-                            SherlockFragment maintenanceFragment = new MaintenanceFragment();
-                            ft.replace(R.id.pane1_fragment, maintenanceFragment);
-                            // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
-                            ft.commit();
-                            return true;  // We handled the callback; We don't need anyone else to handle it
-                        case 2: // Vehicle Types
-                            Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 2. Vehicle Types.");
-                            SherlockFragment vehicleTypesFragment = new VehiclesFragment();
-                            ft.replace(R.id.pane1_fragment, vehicleTypesFragment);
-                            // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
-                            ft.commit();
-                            return true;  // We handled the callback; We don't need anyone else to handle it
-                        case 3: // Maintenance Types
-                            Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 3. Maintenance Types.");
-                            SherlockFragment maintenanceTypesFragment = new MaintenanceTypesFragment();
-                            ft.replace(R.id.pane1_fragment, maintenanceTypesFragment);
-                            // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
-                            ft.commit();
-                            return true;  // We handled the callback; We don't need anyone else to handle it
-                        case 4: // Statistics
-                            Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 3. Statistics.");
-                            SherlockFragment statisticsFragment = new StatisticsFragment();
-                            ft.replace(R.id.pane1_fragment, statisticsFragment);
-                            // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
-                            ft.commit();
-                            return true;  // We handled the callback; We don't need anyone else to handle it
-                        default: // Safe fallback
-                            Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Default : " + itemPosition + ". Unknown option");
-                            return false;  // We don't know what it is; So we pass it along.
-                    }
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                // Handle the item selected
+                switch(itemPosition) { // Assuming the callback is a zero-based position system
+                    case 0: // Fill Up
+                        Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 0. Fill Up.");
+                        SherlockFragment fillUpFragment = new FillUpFragment();
+                        ft.replace(R.id.pane1_fragment, fillUpFragment);
+                        // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                        ft.commit();
+                        return true;  // We handled the callback; We don't need anyone else to handle it
+                    case 1: // Oil Changes
+                        Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 1. Maintenance.");
+                        SherlockFragment maintenanceFragment = new MaintenanceFragment();
+                        ft.replace(R.id.pane1_fragment, maintenanceFragment);
+                        // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                        ft.commit();
+                        return true;  // We handled the callback; We don't need anyone else to handle it
+                    case 2: // Vehicle Types
+                        Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 2. Vehicle Types.");
+                        SherlockFragment vehicleTypesFragment = new VehiclesFragment();
+                        ft.replace(R.id.pane1_fragment, vehicleTypesFragment);
+                        // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                        ft.commit();
+                        return true;  // We handled the callback; We don't need anyone else to handle it
+                    case 3: // Maintenance Types
+                        Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 3. Maintenance Types.");
+                        SherlockFragment maintenanceTypesFragment = new MaintenanceTypesFragment();
+                        ft.replace(R.id.pane1_fragment, maintenanceTypesFragment);
+                        // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                        ft.commit();
+                        return true;  // We handled the callback; We don't need anyone else to handle it
+                    case 4: // GPS Log
+                        Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 4. GPS Log.");
+                        // SherlockFragment gpsLogFragment = new GpsLogResearchFragment(); // GpsLogFragment();
+                        SherlockFragment gpsLogFragment = new GpsLogResearchFragment();
+                        ft.replace(R.id.pane1_fragment, gpsLogFragment);
+                        // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                        ft.commit();
+                        return true;  // We handled the callback; We don't need anyone else to handle it
+                    case 5: // Statistics
+                        Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Option 5. Statistics.");
+                        SherlockFragment statisticsFragment = new StatisticsFragment();
+                        ft.replace(R.id.pane1_fragment, statisticsFragment);
+                        // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                        ft.commit();
+                        return true;  // We handled the callback; We don't need anyone else to handle it
+                    default: // Safe fallback
+                        Log.d(LOGTAG, "spinnerNavigationListener : onNavigationItemSelected : Default : " + itemPosition + ". Unknown option");
+                        return false;  // We don't know what it is; So we pass it along.
+                }
                 }
             };
 
             actionBar.setListNavigationCallbacks(mSpinnerAdapter, spinnerNavigationListener);
-        } else { // We have two panes. Populate the second pane
-            Log.d(LOGTAG, "CarLogActivity : onCreate : We have two panes. Showing FillupFragment.");
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            SherlockFragment fillUpFragment = new FillUpFragment();
-            ft.replace(R.id.pane2_fragment, fillUpFragment);
-            // ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
-            ft.commit();
         }
 
         // Initialize the DB Objects so the DB gets populated

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -46,16 +45,15 @@ public class FillUpFragment extends SherlockFragment {
 
         setHasOptionsMenu(true);
 
-        ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
+        // Home/first screen. Doesn't need Home as Up
+        getSherlockActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View fragmentView = inflater.inflate(R.layout.fillup, container, false);
-        return fragmentView;
+        return inflater.inflate(R.layout.fillup, container, false);
     }
 
     @Override
@@ -138,6 +136,9 @@ public class FillUpFragment extends SherlockFragment {
                 }
             }
         }
+
+        vehicleDBHelper.dumpDbToLogs();
+        fillupDBHelper.dumpDbToLogs();
     }
 
 
@@ -183,7 +184,7 @@ public class FillUpFragment extends SherlockFragment {
         Log.d(LOGTAG, "FillUpFragment : saveFillup : Saving fillup, volume " + volumeEditText.getText().toString() +
                         ", distance " + distanceEditText.getText().toString() +
                         ", price " + priceEditText.getText().toString() +
-                        ", date " + dateEditText.getText().toString() +
+                        ", date " + dateEditText.getText().toString() + " " + timeEditText.getText().toString() +
                         ", isPartial " + (partialFillup.isChecked() ? "yes" : "no") +
                         // ", Vehicle " + vehicleDBHelper.getVehicleData(fillupFor.getSelectedItemPosition())[1] +
                         ", Vehicle " + ((Cursor) fillupFor.getSelectedItem()).getInt(1) +
@@ -196,7 +197,7 @@ public class FillUpFragment extends SherlockFragment {
                 Float.parseFloat(volumeEditText.getText().toString()),
                 distanceEditText.getText().toString(),
                 Float.parseFloat(priceEditText.getText().toString()),
-                "date",
+                dateEditText.getText().toString() + " " + timeEditText.getText().toString(),
                 partialFillup.isChecked(),
                 ((Cursor) fillupFor.getSelectedItem()).getInt(1),
                 saveLocation.isChecked() ? sharedPreferences.getString("localGPSCache", ",,,,").split(",")[0] : "0.0000",
@@ -213,7 +214,7 @@ public class FillUpFragment extends SherlockFragment {
         priceEditText.setText("");
         distanceEditText.setText("");
         commentsEditText.setText("");
-        saveLocation.setChecked(true);
+        // saveLocation.setChecked(true); // Leave it's state at what it was for the last fillup
         partialFillup.setChecked(false);
 
         long millis = new Date().getTime();

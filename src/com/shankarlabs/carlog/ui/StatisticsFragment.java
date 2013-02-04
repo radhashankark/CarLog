@@ -3,24 +3,20 @@ package com.shankarlabs.carlog.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.shankarlabs.carlog.R;
-import com.shankarlabs.carlog.core.FillupDBHelper;
 import com.shankarlabs.carlog.core.VehicleDBHelper;
 
 public class StatisticsFragment extends SherlockFragment {
@@ -30,8 +26,9 @@ public class StatisticsFragment extends SherlockFragment {
     private static boolean mDualPane;
     private Spinner statsFor, statsUnits;
     private TextView mileage, distance, volume, totalCost, statsWindow;
-    private VehicleDBHelper vehicleDBHelper;
-    private FillupDBHelper fillupDBHelper;
+    private RadioGroup statisticsTypeRG;
+    private static VehicleDBHelper vehicleDBHelper;
+    // private FillupDBHelper fillupDBHelper;
 
     public StatisticsFragment() {
         super();
@@ -68,6 +65,10 @@ public class StatisticsFragment extends SherlockFragment {
             getSherlockActivity().getActionBar().setSelectedNavigationItem(4);
         }
 
+        // Check the Raw Stats Button
+        RadioGroup rawStatsRadioGroup = (RadioGroup) getSherlockActivity().findViewById(R.id.statisticstype);
+        // rawStatsRadioGroup.check(R.id.rawstatistics);
+
         statsFor = (Spinner) getSherlockActivity().findViewById(R.id.statsfor);
         statsUnits = (Spinner) getSherlockActivity().findViewById(R.id.statsunits);
         mileage = (TextView) getSherlockActivity().findViewById(R.id.mileage);
@@ -75,13 +76,15 @@ public class StatisticsFragment extends SherlockFragment {
         volume = (TextView) getSherlockActivity().findViewById(R.id.volume);
         totalCost = (TextView) getSherlockActivity().findViewById(R.id.totalcost);
         statsWindow = (TextView) getSherlockActivity().findViewById(R.id.statswindow);
+        statisticsTypeRG = (RadioGroup) getSherlockActivity().findViewById(R.id.statisticstype);
 
         statsFor.setOnItemSelectedListener(statsForOnItemSelectedListener);
-        statsUnits.setOnItemSelectedListener(statsUnitsOnItemSelectedListener);
+        // statsUnits.setOnItemSelectedListener(statsUnitsOnItemSelectedListener);
+        statisticsTypeRG.setOnCheckedChangeListener(statTypeChangeListener);
 
         // Get the DB instances
         vehicleDBHelper = new VehicleDBHelper(mContext);
-        fillupDBHelper = new FillupDBHelper(mContext);
+        // fillupDBHelper = new FillupDBHelper(mContext);
 
         // Populate the Vehicle types
         Cursor cursor = vehicleDBHelper.getAllVehicles();
@@ -114,7 +117,22 @@ public class StatisticsFragment extends SherlockFragment {
                 if(isDefault == 1) {
                     cursor.moveToPrevious(); // We already moved one ahead. Rewind one.
                     statsFor.setSelection(cursor.getPosition());
-                    // populateVehicleData(defaultVehicleId);
+
+                    /* We don't have to show the raw fragment; Setting the Spinner will do it automatically for us.
+                    // Pass the vehicleCode to the RawStatisticsFragment
+                    int vehicleCode = cursor.getInt(1);
+                    Log.d(LOGTAG, "StatisticsFragment : onActivityCreated : Showing all data for vehicle code " + vehicleCode);
+                    Bundle fillupData = new Bundle();
+                    fillupData.putInt("vehicleCode", vehicleCode);
+                    SherlockListFragment rawStatisticsFragment = new RawStatisticsFragment();
+                    rawStatisticsFragment.setArguments(fillupData);
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.pane3_fragment, rawStatisticsFragment);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    // ft.addToBackStack(null);
+                    ft.commit(); // ABS needs commit
+                    */
                     break;
                 } else {
                     isDefault = cursor.getInt(3);
@@ -165,12 +183,33 @@ public class StatisticsFragment extends SherlockFragment {
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            //To change body of implemented methods use File | Settings | File Templates.
+            // Any time you change the vehicle, revert to the Raw Stats
+            statisticsTypeRG.check(R.id.rawstatistics);
+
+            /* The change in the radio button will take care of loading the fragment into pane 3
+            // Get the vehicle code
+            Cursor tempCursor = (Cursor) statsFor.getSelectedItem();
+            int vehicleCode = tempCursor.getInt(1); // 1 is the code of the vehicle
+
+            // Pass the vehicleCode to the RawStatisticsFragment
+            Log.d(LOGTAG, "StatisticsFragment : statsForOnItemSelectedListener : Showing all data for vehicle code " + vehicleCode);
+            Bundle fillupData = new Bundle();
+            fillupData.putInt("vehicleCode", vehicleCode);
+            SherlockListFragment rawStatisticsFragment = new RawStatisticsFragment();
+            rawStatisticsFragment.setArguments(fillupData);
+
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.pane3_fragment, rawStatisticsFragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            // ft.addToBackStack(null);
+            ft.commit(); // ABS needs commit,
+            */
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-            //To change body of implemented methods use File | Settings | File Templates.
+            // Nothing selected means you don't have anything to do.
+            Log.d(LOGTAG, "StatisticsFragment : statsForOnItemSelectedListener : Nothing selected");
         }
     };
 
@@ -178,12 +217,50 @@ public class StatisticsFragment extends SherlockFragment {
 
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            //To change body of implemented methods use File | Settings | File Templates.
+            Log.d(LOGTAG, "StatisticsFragment : statsUnitsOnItemSelectedListener : Units selected " + i);
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
-            //To change body of implemented methods use File | Settings | File Templates.
+            Log.d(LOGTAG, "StatisticsFragment : statsUnitsOnItemSelectedListener : Nothing selected");
+        }
+    };
+
+    RadioGroup.OnCheckedChangeListener statTypeChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            Log.d(LOGTAG, "StatisticsFragment : statTypeChangeListener : Stats type selected : " + checkedId);
+            int vehicleCode = ((Cursor) statsFor.getSelectedItem()).getInt(1);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+            switch(checkedId) {
+                case R.id.rawstatistics :
+                    // Pass the vehicleCode to the RawStatisticsFragment
+                    Log.d(LOGTAG, "StatisticsFragment : onActivityCreated : Showing all data for vehicle code " + vehicleCode);
+                    Bundle fillupData = new Bundle();
+                    fillupData.putInt("vehicleCode", vehicleCode);
+                    SherlockListFragment rawStatisticsFragment = new RawStatisticsFragment();
+                    rawStatisticsFragment.setArguments(fillupData);
+
+                    ft.replace(R.id.pane3_fragment, rawStatisticsFragment);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    // ft.addToBackStack(null);
+                    ft.commit(); // ABS needs commit
+                    break;
+                case R.id.statisticssummary :
+                    // Pass the vehicleCode to the RawStatisticsFragment
+                    Log.d(LOGTAG, "StatisticsFragment : onActivityCreated : Showing summary for vehicle code " + vehicleCode);
+                    Bundle summaryData = new Bundle();
+                    summaryData.putInt("vehicleCode", vehicleCode);
+                    SherlockFragment statisticsSummaryFragment = new StatisticsSummaryFragment();
+                    statisticsSummaryFragment.setArguments(summaryData);
+
+                    ft.replace(R.id.pane3_fragment, statisticsSummaryFragment);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    // ft.addToBackStack(null);
+                    ft.commit(); // ABS needs commit
+                    break;
+            }
         }
     };
 }

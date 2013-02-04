@@ -76,6 +76,19 @@
 
 
         <Button
+                android:id="@+id/gpslog"
+                android:text="GPS Log"
+                android:gravity="center"
+                android:drawableTop="@drawable/ic_launcher"
+                android:background="@drawable/button_background"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:padding="3dp"
+                />
+
+        <Button
                 android:id="@+id/statistics"
                 android:text="Statistics"
                 android:gravity="center"

@@ -17,7 +17,7 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
     private static final String LOGTAG = "CarLog";
     private final String TABLE_CREATE = "CREATE TABLE " + DATABASE_NAME +
             " (_id INTEGER primary key autoincrement," +
-            " CODE INTEGER," +
+            " CODE INTEGER unique," +
             " NAME TEXT," +
             " ISDEFAULT INTEGER," +
             " UNITSUSED INTEGER," +
@@ -33,8 +33,11 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
 
     public VehicleDBHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        mContext = context;
-        database = getWritableDatabase();
+        if(mContext == null)
+            mContext = context;
+
+        if(database == null)
+            database = getWritableDatabase();
     }
 
     @Override
@@ -187,6 +190,63 @@ public class VehicleDBHelper extends SQLiteOpenHelper {
             vehicleData[5] = cursor.getString(5);   // description
 
             return vehicleData;
+        }
+    }
+
+    public String getVehicleName(int vehicleCode) {
+        if(database == null)
+            database = getWritableDatabase();
+
+        String columns[] = {"NAME"};
+        String selection = "CODE = '" + vehicleCode + "'";
+        Cursor cursor = database.query(DATABASE_NAME, columns, selection, null, null, null, null);
+
+        if(cursor == null || cursor.getCount() == 0) {
+            Log.e(LOGTAG, "VehicleDBHelper : getVehicleName : Cursor null or no rows found. Returning null");
+            return null; // We don't have anything to send back.
+        } else {
+            Log.d(LOGTAG, "VehicleDBHelper : getVehicleName : Vehicle name " + cursor.getString(0) + " code " + vehicleCode);
+            return cursor.getString(0);
+        }
+    }
+
+    public void dumpDbToLogs() {
+        if(database == null)
+            database = getWritableDatabase();
+
+        Cursor cursor = database.query(DATABASE_NAME, null, null, null, null, null, null);
+        if(cursor == null) {
+            Log.e(LOGTAG, "VehicleDBHelper : dumpToLogs : Cursor is null");
+        } else if(cursor.getCount() == 0) {
+            Log.w(LOGTAG, "VehicleDBHelper : dumpToLogs : No Data found in DB");
+        } else {
+            cursor.moveToFirst();
+            Log.d(LOGTAG, "VehicleDBHelper : dumpToLogs : \t" +
+                    cursor.getColumnName(0) + "\t" +
+                    cursor.getColumnName(1) + "\t" +
+                    cursor.getColumnName(2) + "\t" +
+                    cursor.getColumnName(3) + "\t" +
+                    cursor.getColumnName(4) + "\t" +
+                    cursor.getColumnName(5));
+
+            // Show first row
+            Log.d(LOGTAG, "VehicleDBHelper : dumpToLogs : \t" +
+                    cursor.getInt(0) + "\t" +
+                    cursor.getInt(1) + "\t" +
+                    cursor.getString(2) + "\t" +
+                    cursor.getInt(3) + "\t" +
+                    cursor.getInt(4) + "\t" +
+                    cursor.getString(5));
+
+            while(cursor.moveToNext()) {
+                Log.d(LOGTAG, "VehicleDBHelper : dumpToLogs : \t" +
+                        cursor.getInt(0) + "\t" +
+                        cursor.getInt(1) + "\t" +
+                        cursor.getString(2) + "\t" +
+                        cursor.getInt(3) + "\t" +
+                        cursor.getInt(4) + "\t" +
+                        cursor.getString(5));
+            }
         }
     }
 }

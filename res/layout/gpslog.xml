@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center" >
+
+    <LinearLayout
+        android:layout_height="4dp"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp" >
+
+        <View
+            android:id="@+id/glgpsindicator"
+            android:layout_height="4dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="#F00"
+            android:layout_marginRight="4dp" />
+
+        <View
+            android:id="@+id/glnwindicator"
+            android:layout_height="4dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="#F00"
+            android:layout_marginRight="4dp" />
+
+        <View
+            android:id="@+id/glrecordindicator"
+            android:layout_height="4dp"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:background="#F00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:baselineAligned="false">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:text="Longitude"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/gllongitude"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:text="34.2123423"
+                android:textSize="22dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Latitude"
+                    android:textSize="16dp" />
+
+            <TextView
+                    android:id="@+id/gllatitude"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="-94.2123423"
+                    android:textSize="22dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:baselineAligned="false" >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Accuracy"
+                    android:textSize="16dp" />
+
+            <TextView
+                    android:id="@+id/glaccuracy"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="34 m"
+                    android:textSize="22dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Altitude"
+                    android:textSize="16dp" />
+
+            <TextView
+                    android:id="@+id/glaltitude"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="2413 m"
+                    android:textSize="22dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Bearing"
+                    android:textSize="16dp" />
+
+            <TextView
+                    android:id="@+id/glbearing"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="E-SE"
+                    android:textSize="22dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:baselineAligned="false">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Time"
+                    android:textSize="16dp" />
+
+            <TextView
+                    android:id="@+id/gltime"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="01/18/2013 15:23:41"
+                    android:textSize="22dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:orientation="vertical" >
+
+            <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Provider"
+                    android:textSize="16dp" />
+
+            <TextView
+                    android:id="@+id/glprovider"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="Network"
+                    android:textSize="22dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_margin="5dp" >
+
+        <Button
+                android:id="@+id/glrecordbtn"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Start Recording"
+                android:textSize="16dp" />
+
+        <Button
+                android:id="@+id/glfavoritebtn"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Favorite"
+                android:textSize="16dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

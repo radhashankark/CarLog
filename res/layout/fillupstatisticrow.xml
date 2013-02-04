@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="6dp" >
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="2dp"
+            android:paddingBottom="1dp"
+            android:baselineAligned="false" >
+
+        <TextView
+            android:id="@+id/rowid"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:visibility="invisible" />
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="center"
+                android:layout_weight="1"  >
+
+            <TextView
+                android:text="Volume:"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp" />
+
+            <TextView
+                android:id="@+id/volumestat"
+                android:text="315.87"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1" >
+
+            <TextView
+                android:text="Price:"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingLeft="9dp"
+                android:paddingRight="3dp" />
+
+            <TextView
+                android:id="@+id/pricestat"
+                android:text="123.23"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="1" >
+
+            <TextView
+                android:text="Cost:"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:paddingLeft="9dp"
+                android:paddingRight="3dp" />
+
+            <TextView
+                android:id="@+id/coststat"
+                android:text="214.12"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="2dp"
+            android:paddingBottom="1dp"
+            android:baselineAligned="false" >
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:layout_weight="2"  >
+
+            <TextView
+                    android:text="On:"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="3dp" />
+
+            <TextView
+                    android:id="@+id/datestat"
+                    android:text="12/31/2012 15:31:48"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="2.5"  >
+
+            <TextView
+                    android:text="Partial:"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="3dp" />
+
+            <TextView
+                    android:id="@+id/partialstat"
+                    android:text="Yes"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

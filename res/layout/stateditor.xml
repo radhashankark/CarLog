@@ -11,46 +11,39 @@
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical" >
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" >
 
-        <LinearLayout android:orientation="horizontal"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginBottom="8dp" >
-
-            <TextView
+        <TextView
+                android:id="@+id/editfillupfor"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="Filling up Vehicle "
                 android:textSize="18dp" />
 
-            <Spinner
-                android:id="@+id/fillupfor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
         <LinearLayout android:orientation="horizontal"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_marginBottom="8dp" >
 
-            <EditText android:id="@+id/volumeedittext"
+            <EditText android:id="@+id/editvolume"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_weight="1"
                       android:padding="5dp"
                       android:hint="Amount of fuel"
-                      android:inputType="numberDecimal" />
+                      android:inputType="numberDecimal"
+                      android:enabled="false" />
 
-            <EditText android:id="@+id/priceedittext"
+            <EditText android:id="@+id/editprice"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_weight="1"
                       android:padding="5dp"
                       android:hint="Price per unit"
-                      android:inputType="numberDecimal" />
+                      android:inputType="numberDecimal"
+                      android:enabled="false" />
 
         </LinearLayout>
 
@@ -59,27 +52,29 @@
                       android:layout_height="wrap_content"
                       android:layout_marginBottom="8dp" >
 
-            <EditText android:id="@+id/distanceedittext"
+            <EditText android:id="@+id/editdistance"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_weight="1"
                       android:padding="5dp"
                       android:hint="+Trip/Odometer"
-                      android:inputType="numberSigned" />
+                      android:inputType="numberDecimal"
+                      android:enabled="false" />
 
-            <CheckBox android:id="@+id/partialfillupckbx"
+            <CheckBox android:id="@+id/editpartialfillup"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:layout_weight="1"
-                      android:text="Partial fill" />
+                      android:text="Partial fill"
+                      android:enabled="false" />
 
         </LinearLayout>
 
         <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:text="Fill up Date and Time"
-            android:textSize="18dp" />
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Date and Time"
+                android:textSize="18dp" />
 
         <LinearLayout
                 android:orientation="horizontal"
@@ -88,53 +83,56 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp" >
 
-            <EditText android:id="@+id/dateedittext"
+            <EditText android:id="@+id/editdate"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:gravity="center"
                       android:layout_weight="1"
                       android:padding="5dp"
                       android:enabled="false"
-                      android:clickable="true"
+                      android:clickable="false"
                       android:hint="Current Date" />
 
-            <EditText android:id="@+id/timeedittext"
+            <EditText android:id="@+id/edittime"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:gravity="center"
                       android:layout_weight="1"
                       android:padding="5dp"
                       android:enabled="false"
-                      android:clickable="true"
+                      android:clickable="false"
                       android:hint="Current Time" />
 
         </LinearLayout>
 
-        <LinearLayout android:orientation="horizontal"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editcomments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="4"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:hint="Additional Notes"
+            android:enabled="false" />
 
-            <EditText android:id="@+id/commentsedittext"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:lines="4"
-                      android:layout_weight="1"
-                      android:padding="5dp"
-                      android:hint="Additional Notes" />
+        <Switch
+            android:id="@+id/clearlocationswitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location Data"
+            android:textSize="18dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:enabled="false" />
 
-        </LinearLayout>
-
-        <CheckBox android:id="@+id/savelocationckbx"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:text="Save Location ?" />
-
-        <Button android:id="@+id/savefillupbtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:padding="5dp"
-                android:text="Save Fillup" />
+        <Button
+            android:id="@+id/editstatsave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:text="Save Fillup"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

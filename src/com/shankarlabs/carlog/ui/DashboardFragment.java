@@ -1,6 +1,5 @@
 package com.shankarlabs.carlog.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import com.shankarlabs.carlog.R;
 public class DashboardFragment extends SherlockFragment {
 
     private boolean mDualPane = true; // The mDualPane is always true when we're dealing with DashboardFragment
-    private Button fillupsTextView, maintenanceTextView, vehicleTypesTextView, maintenanceTypesTextView, statisticsTextView;
+    private Button fillups, maintenance, vehicleTypes, maintenanceTypes, gpsLog, statistics;
     // private static Context mContext;
 
     @Override
@@ -34,17 +33,19 @@ public class DashboardFragment extends SherlockFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        fillupsTextView = (Button) getActivity().findViewById(R.id.fillups);
-        maintenanceTextView = (Button) getActivity().findViewById(R.id.maintenance);
-        vehicleTypesTextView = (Button) getActivity().findViewById(R.id.vehicletypes);
-        maintenanceTypesTextView = (Button) getActivity().findViewById(R.id.maintenancetypes);
-        statisticsTextView = (Button) getActivity().findViewById(R.id.statistics);
+        fillups = (Button) getActivity().findViewById(R.id.fillups);
+        maintenance = (Button) getActivity().findViewById(R.id.maintenance);
+        vehicleTypes = (Button) getActivity().findViewById(R.id.vehicletypes);
+        maintenanceTypes = (Button) getActivity().findViewById(R.id.maintenancetypes);
+        gpsLog = (Button) getActivity().findViewById(R.id.gpslog);
+        statistics = (Button) getActivity().findViewById(R.id.statistics);
 
-        fillupsTextView.setOnClickListener(fillupOnClickListener);
-        maintenanceTextView.setOnClickListener(maintenanceOnClickListener);
-        vehicleTypesTextView.setOnClickListener(vehicleTypesOnClickListener);
-        maintenanceTypesTextView.setOnClickListener(maintenanceTypesOnClickListener);
-        statisticsTextView.setOnClickListener(statisticsOnClickListener);
+        fillups.setOnClickListener(fillupOnClickListener);
+        maintenance.setOnClickListener(maintenanceOnClickListener);
+        vehicleTypes.setOnClickListener(vehicleTypesOnClickListener);
+        maintenanceTypes.setOnClickListener(maintenanceTypesOnClickListener);
+        gpsLog.setOnClickListener(gpsLogOnClickListener);
+        statistics.setOnClickListener(statisticsOnClickListener);
     }
 
     View.OnClickListener fillupOnClickListener = new View.OnClickListener() {
@@ -103,6 +104,20 @@ public class DashboardFragment extends SherlockFragment {
         }
     };
 
+    View.OnClickListener gpsLogOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(mDualPane) { // If we have dual panes, put a fragment in the second pane
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                // SherlockFragment gpsLogFragment = new GpsLogResearchFragment(); // GpsLogFragment();
+                SherlockFragment gpsLogFragment = new GpsLogResearchFragment();
+                ft.replace(R.id.pane2_fragment, gpsLogFragment);
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                // ft.addToBackStack(null); // Dont commit because there's nothing to go back to
+                ft.commit();
+            }
+        }
+    };
     View.OnClickListener statisticsOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
